@@ -1,4 +1,3 @@
-import { UserButton } from "@clerk/nextjs";
 
 const AuthLayout = ({
   children
@@ -6,8 +5,8 @@ const AuthLayout = ({
   children: React.ReactNode;
 }) => {
   return ( 
-    <div className="h-screen flex flex-col items-center justify-center space-y-6">
-  
+    <div className="h-full flex flex-col items-center justify-center space-y-6">
+
       {children}
     </div>
   );
