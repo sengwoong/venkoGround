@@ -56,6 +56,12 @@ export async function POST(req: Request) {
         externalUserId: payload.data.id,
         username: payload.data.username,
         imageUrl: payload.data.image_url,
+        stream: {
+          create: {
+            name: `${payload.data.username}'s stream`,
+          },
+        },
+        isteacher: false,
       }
     });
   }
@@ -68,6 +74,7 @@ export async function POST(req: Request) {
       data: {
         username: payload.data.username,
         imageUrl: payload.data.image_url,
+        isteacher:payload.data.isteacher
       },
     });
   }
