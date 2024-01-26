@@ -6,7 +6,8 @@ import { useTransition } from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { updateStream } from "@/actions/steam";
-import { Switch } from "@radix-ui/react-switch";
+import * as Switch from '@radix-ui/react-switch';
+import SwitchBtn from "@/components/switch-btn";
 
 type FieldTypes = "isChatEnabled" | "isChatDelayed" | "isChatFollowersOnly";
 
@@ -38,18 +39,21 @@ export const ToggleCard = ({
           {label}
         </p>
         <div className="space-y-2">
-          <Switch
-            disabled={isPending}
-            onCheckedChange={onChange}
-            checked={value}
-          >
-            {value ? "On" : "Off"}
-          </Switch>
+            <SwitchBtn disabled={isPending}  onCheckedChange={onChange} checked={value} >
+      
+            </SwitchBtn>
+           
         </div>
       </div>
     </div>
   );
 };
+
+
+
+
+
+
 
 export const ToggleCardSkeleton = () => {
   return (
