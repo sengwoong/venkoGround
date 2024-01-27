@@ -1,6 +1,6 @@
 "use client";
 
-import { Follow, User } from "@prisma/client";
+import { Follow,Stream, User } from "@prisma/client";
 
 
 
