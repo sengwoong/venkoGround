@@ -1,6 +1,6 @@
 "use client";
 
-import {Stream, User } from "@prisma/client";
+import { User } from "@prisma/client";
 
 
 
@@ -9,7 +9,7 @@ import { useSidebar } from "@/app/store/use-sidebar";
 
 interface RecommendedProps {
     data: (User & {
-      stream: Stream | null;
+      stream: { isLive: boolean } | null;
     })[];
   };
 
