@@ -29,3 +29,5 @@ const CreatorPage = async ({
     </div>
   );
 }
+ 
+export default CreatorPage;
