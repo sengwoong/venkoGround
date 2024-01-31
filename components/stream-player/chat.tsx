@@ -11,10 +11,12 @@ import {
 
 
 
-import { ChatForm } from "./chat-form";
-import { ChatList } from "./chat-list";
-import { ChatHeader } from "./chat-header";
-import { useChatSidebar ,ChatVariant } from "@/app/store/use-chat-sidebar";
+import { ChatForm, ChatFormSkeleton } from "./chat-form";
+import { ChatList, ChatListSkeleton } from "./chat-list";
+import { ChatHeader, ChatHeaderSkeleton } from "./chat-header";
+
+import { ChatVariant, useChatSidebar } from "@/app/store/use-chat-sidebar";
+import { ChatCommunity } from "./chat-community";
 
 interface ChatProps {
   hostName: string;
@@ -89,10 +91,22 @@ export const Chat = ({
         </>
       )}
       {variant === ChatVariant.COMMUNITY && (
-        <>
-          <p>Community</p>
-        </>
+        <ChatCommunity
+          viewerName={viewerName}
+          hostName={hostName}
+          isHidden={isHidden}
+        />
       )}
+    </div>
+  );
+};
+
+export const ChatSkeleton = () => {
+  return (
+    <div className="flex flex-col border-l border-b pt-0 h-[calc(100vh-80px)] border-2">
+      <ChatHeaderSkeleton />
+      <ChatListSkeleton />
+      <ChatFormSkeleton />
     </div>
   );
 };

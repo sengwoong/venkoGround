@@ -4,7 +4,8 @@ import { MessageSquare, Users } from "lucide-react";
 
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
-import { useChatSidebar,ChatVariant} from "@/app/store/use-chat-sidebar";
+import { ChatVariant, useChatSidebar } from "@/app/store/use-chat-sidebar";
+
 
 export const VariantToggle = () => {
   const {
