@@ -32,7 +32,7 @@ export const Search = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="relative w-full lg:w-[400px] flex items-center"
+      className="relative w-full  flex items-center"
     >
       <Input
         value={value}
