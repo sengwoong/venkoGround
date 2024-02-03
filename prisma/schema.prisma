@@ -9,45 +9,65 @@ generator client {
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
+model DrawTable {
+  id       String  @id @default(uuid())
+  title    String  @db.Text
+  img      Bytes   
+
+  viewUser Group[] 
+}
+
+model Group {
+  id         String      @id @default(uuid())
+  grouptitle String      @db.Text
+  leader     String      @db.Text
+  user       String      @db.Text
+  membershipstatus Boolean
+  drawTables DrawTable[]
+  groupUser   User[]
+  groupNotifications GroupNotification[]
+}
+
 model User {
-  id String @id @default(uuid())
-  username String @unique
-  imageUrl String @db.Text
-  externalUserId String @unique
-  bio String? @db.Text
-  isteacher Boolean
+  id              String   @id @default(uuid())
+  username        String   @unique
+  imageUrl        String   @db.Text
+  externalUserId  String   @unique
+  bio             String?  @db.Text
+  isteacher       Boolean
 
-  following Follow[] @relation("Following")
-  followedBy Follow[] @relation("FollowedBy")
+  following       Follow[] @relation("Following")
+  followedBy      Follow[] @relation("FollowedBy")
 
-  blocking Block[] @relation("Blocking")
-  blockedBy Block[] @relation("BlockedBy")
+  blocking        Block[]  @relation("Blocking")
+  blockedBy       Block[]  @relation("BlockedBy")
 
-  stream Stream?
+  stream          Stream?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  groupUser       Group[]
+  personalNotifications PersonalNotification[]
 }
 
 model Stream {
-  id String @id @default(uuid())
-  name String @db.Text
-  thumbnailUrl String? @db.Text
-
-  ingressId String? @unique
-  serverUrl String? @db.Text
-  streamKey String? @db.Text
-
-  isLive Boolean @default(false)
-  isChatEnabled Boolean @default(true)
-  isChatDelayed Boolean @default(false)
+  id               String   @id @default(uuid())
+  name             String   @db.Text
+  thumbnailUrl     String?  @db.Text
+  ingressId        String?  @unique
+  serverUrl        String?  @db.Text
+  streamKey        String?  @db.Text
+  isLive           Boolean  @default(false)
+  isChatEnabled    Boolean  @default(true)
+  isChatDelayed    Boolean  @default(false)
   isChatFollowersOnly Boolean @default(false)
 
-  userId String @unique
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@index([userId])
   @@index([ingressId])
@@ -55,15 +75,15 @@ model Stream {
 }
 
 model Follow {
-  id String @id @default(uuid())
-  followerId String
-  followingId String
+  id             String   @id @default(uuid())
+  followerId     String
+  followingId    String
 
-  follower User @relation(name: "Following", fields: [followerId], references: [id], onDelete: Cascade)
-  following User @relation(name: "FollowedBy", fields: [followingId], references: [id], onDelete: Cascade)
+  follower       User     @relation(name: "Following", fields: [followerId], references: [id], onDelete: Cascade)
+  following      User     @relation(name: "FollowedBy", fields: [followingId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@unique([followerId, followingId])
   @@index([followerId])
@@ -71,14 +91,34 @@ model Follow {
 }
 
 model Block {
-  id String @id @default(uuid())
-  blockerId String
-  blockedId String
+  id             String   @id @default(uuid())
+  blockerId      String
+  blockedId      String
 
-  blocker User @relation(name: "Blocking", fields: [blockerId], references: [id], onDelete: Cascade)
-  blocked User @relation(name: "BlockedBy", fields: [blockedId], references: [id], onDelete: Cascade)
+  blocker        User     @relation(name: "Blocking", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked        User     @relation(name: "BlockedBy", fields: [blockedId], references: [id], onDelete: Cascade)
 
   @@unique([blockerId, blockedId])
   @@index([blockerId])
   @@index([blockedId])
+}
+
+model GroupNotification {
+  id             String   @id @default(uuid())
+  groupId        String
+  content        String   @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  type           String
+  group          Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+}
+
+model PersonalNotification {
+  id             String   @id @default(uuid())
+  userId         String
+  content        String   @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  type           String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -49,8 +49,10 @@ export async function POST(req: Request) {
   }
 
   const eventType = evt.type;
-
+  console.log("eventType")
+  console.log(eventType)
   if (eventType === "user.created") {
+    console.log(eventType)
     await db.user.create({
       data: {
         externalUserId: payload.data.id,
