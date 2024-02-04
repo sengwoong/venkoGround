@@ -13,7 +13,7 @@ import { Video } from "./stream-player/video";
 
 interface StreamPlayerProps {
   user: User & { stream: Stream | null };
-  stream: Stream;
+  stream: Stream | null;
   isFollowing: boolean;
 }
 
@@ -29,7 +29,7 @@ export const StreamPlayer = ({
   } = useViewerToken(user.id);
   const { collapsed } = useChatSidebar((state) => state);
 
-  if (!token || !name || !identity) {
+  if (!token || !name || !identity || !stream) {
     return (
       <div>
         Cannot watch the stream

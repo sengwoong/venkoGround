@@ -2,10 +2,9 @@
 
 import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
 
-
+import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/app/store/use-sidebar";
-import { Hint } from "../../../../components/hint";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const Toggle = () => {
@@ -20,12 +19,12 @@ export const Toggle = () => {
   return (
     <>
       {collapsed && (
-        <div className="flex w-full items-center justify-center pt-4 mb-4">
+        <div className="hidden lg:flex w-full items-center justify-center pt-4 mb-4">
           <Hint label={label} side="right" asChild>
             <Button
               onClick={onExpand}
               variant="ghost" 
-              className="p-2"
+              className="h-auto p-2"
             >
               <ArrowRightFromLine className="h-4 w-4" />
             </Button>

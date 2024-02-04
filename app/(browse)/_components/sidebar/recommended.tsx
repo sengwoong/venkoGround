@@ -2,16 +2,15 @@
 
 import { User } from "@prisma/client";
 
-
-
-import { UserItem, UserItemSkeleton } from "./user-item";
 import { useSidebar } from "@/app/store/use-sidebar";
 
+import { UserItem, UserItemSkeleton } from "./user-item";
+
 interface RecommendedProps {
-    data: (User & {
-      stream: { isLive: boolean } | null;
-    })[];
-  };
+  data: (User & {
+    stream: { isLive: boolean } | null;
+  })[];
+};
 
 export const Recommended = ({
   data,

@@ -24,7 +24,7 @@ const CreatorPage = async ({
   console.log("externalUser")
   console.log(externalUser)
 
-  if (!user || user.externalUserId !== externalUser?.id || !user.stream) {
+  if (!user || user.externalUserId !== externalUser?.id ) {
     throw new Error("Unauthorized");
   }
   
