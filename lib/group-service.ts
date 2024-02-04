@@ -1,28 +1,44 @@
 import { db } from "@/lib/db";
 import { getSelf } from "./auth-service";
 
-// 그룹 생성
-export const createGroup = async (groupTitle: string) => {
-  const self = await getSelf();
-
-  try {
-    // 새 그룹 생성
-    const newGroup = await db.group.create({
-      data: {
-        grouptitle: groupTitle,
-        leader: self.id,
-        user: self.id,
-        membershipstatus: true, // 생성자는 자동으로 멤버가 되는 것으로 가정
-      },
-    });
-
-    return `그룹 "${groupTitle}"이(가) 성공적으로 생성되었습니다. ID: ${newGroup.id}`;
-  } catch (error) {
-    console.error("그룹 생성 중 오류:", error);
-    throw new Error("그룹 생성 중 오류 발생");
+enum typeProps {
+    leader = "leader",
+    student = "student"
   }
-};
+  
 
+// 5. 새 보드 만들기
+/**
+ * 새 보드를 생성하고 기존 그룹과 연결합니다.
+ *
+ * @param userId - 보드를 생성하는 사용자의 ID입니다.
+ * @param boardTitle - 새 보드의 제목입니다.
+ * @param boardImg - 새 보드의 이미지 데이터입니다.
+ * @param groupId - 보드를 연결할 기존 그룹의 ID입니다.
+ * @returns 생성된 보드입니다.
+ * @throws 보드를 생성하는 동안 문제가 발생하면 오류가 throw됩니다.
+ */
+export async function createBoard(userId: string, boardTitle: string, boardImg: Buffer, groupId: string) {
+    try {
+      // Create the new board and associate it with the specified group
+      const newBoard = await db.drawTable.create({
+        data: {
+          title: boardTitle,
+          img: boardImg,
+          viewUser: {
+            connect: { id: groupId }, // Connect the board to the specified group
+          },
+        },
+      });
+  
+      return newBoard;
+    } catch (error) {
+      console.error("Error creating a new board:", error);
+      throw error;
+    }
+  }
+
+  
 // 그룹에 가입하기
 export const requestToJoinGroup = async (groupId: string) => {
   const self = await getSelf();
@@ -126,7 +142,7 @@ export const acceptGroupRequest = async (userId: string, requestId: string) => {
     const self = await getSelf();
 
     // 리더가 아닌 사용자가 요청을 수락할 수 없음
-    if (request.leader !== self.id) {
+    if (request.leader == false) {
       throw new Error("사용자는 리더가 아닙니다");
     }
 

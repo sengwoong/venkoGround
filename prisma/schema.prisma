@@ -13,14 +13,13 @@ model DrawTable {
   id       String  @id @default(uuid())
   title    String  @db.Text
   img      Bytes   
-
   viewUser Group[] 
 }
 
 model Group {
   id         String      @id @default(uuid())
   grouptitle String      @db.Text
-  leader     String      @db.Text
+  leader     Boolean    
   user       String      @db.Text
   membershipstatus Boolean
   drawTables DrawTable[]
