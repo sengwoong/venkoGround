@@ -13,42 +13,55 @@ model DrawTable {
   id       String  @id @default(uuid())
   title    String  @db.Text
   img      Bytes   
-  viewUser Group[] 
+  groupId  String  @db.Text 
+  group    Group   @relation(fields: [groupId], references: [id])
 }
 
 model Group {
-  id         String      @id @default(uuid())
-  grouptitle String      @db.Text
-  leader     Boolean    
-  user       String      @db.Text
-  membershipstatus Boolean
-  drawTables DrawTable[]
-  groupUser   User[]
+  id                 String              @id @default(uuid())
+  grouptitle         String              @db.Text           
+  leader             String         
+  drawTables         DrawTable[]    
+  groupUser          User[]
   groupNotifications GroupNotification[]
+  groupApplications  GroupApplication[]
+}
+
+model GroupApplication {
+  id                String    @id @default(uuid())
+  status            Boolean
+  groupId           String
+  group             Group     @relation(fields: [groupId], references: [id])
+  userId            String    @unique
+  user              User      @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id              String   @id @default(uuid())
-  username        String   @unique
-  imageUrl        String   @db.Text
-  externalUserId  String   @unique
-  bio             String?  @db.Text
-  isteacher       Boolean
+  id                 String              @id @default(uuid())
+  username           String              @unique
+  imageUrl           String              @db.Text
+  externalUserId     String              @unique
+  bio                String?             @db.Text
+  isteacher          Boolean
 
-  following       Follow[] @relation("Following")
-  followedBy      Follow[] @relation("FollowedBy")
+  following          Follow[]            @relation("Following")
+  followedBy         Follow[]            @relation("FollowedBy")
 
-  blocking        Block[]  @relation("Blocking")
-  blockedBy       Block[]  @relation("BlockedBy")
+  blocking           Block[]             @relation("Blocking")
+  blockedBy          Block[]             @relation("BlockedBy")
 
-  stream          Stream?
+  stream             Stream?
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
 
-  groupUser       Group[]
+  groupUser          Group[]
   personalNotifications PersonalNotification[]
+  groupApplication   GroupApplication?  
 }
+
+
+
 
 model Stream {
   id               String   @id @default(uuid())
