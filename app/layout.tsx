@@ -6,7 +6,12 @@ import './globals.css'
 
 import { ThemeProvider } from '@/components/theme-provider'
 
+
+
+
 const inter = Inter({ subsets: ['latin'] })
+
+
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,9 +24,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
+   
     <ClerkProvider appearance={{ baseTheme: dark }}>
       <html lang="en">
         <body className={inter.className}>
+  
           <ThemeProvider
             attribute="class"
             forcedTheme="dark"
@@ -29,8 +36,11 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
+
         </body>
       </html>
     </ClerkProvider>
+
+
   )
 }

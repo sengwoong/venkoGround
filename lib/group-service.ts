@@ -1,7 +1,8 @@
-// group-service.ts
+
 
 import { db } from "@/lib/db";
-import { getSelf } from "./auth-service";
+
+import { Group, User } from "@prisma/client";
 
 enum typeProps {
   leader = "leader",
@@ -13,10 +14,8 @@ enum typeProps {
  * @param {string} grouptitle - 생성할 그룹의 제목
  * @returns {Promise<string>} - 그룹 생성 결과 메시지
  */
-export const createGroup = async (grouptitle: string): Promise<string> => {
-    console.log("Before getSelf()"); // Log before calling getSelf()
-    
-    const self = await getSelf();
+export const createGroup = async (grouptitle: string,self:User ): Promise<string> => {
+ 
 
   
     try {
@@ -44,8 +43,8 @@ export const createGroup = async (grouptitle: string): Promise<string> => {
  * @param {string} groupId - 가입할 그룹의 ID
  * @returns {Promise<string>} - 가입 결과 메시지
  */
-export const requestToJoinGroup = async (groupId: string): Promise<string> => {
-  const self = await getSelf();
+export const requestToJoinGroup = async (groupId: string,self:User): Promise<string> => {
+
 
   try {
     const group = await db.group.findUnique({
@@ -90,8 +89,8 @@ export const requestToJoinGroup = async (groupId: string): Promise<string> => {
  * @param {string} groupId - 초대할 그룹의 ID
  * @returns {Promise<string>} - 초대 결과 메시지
  */
-export const inviteToGroup = async (invitedUserId: string, groupId: string): Promise<string> => {
-  const self = await getSelf();
+export const inviteToGroup = async (invitedUserId: string, groupId: string,self:User): Promise<string> => {
+
 
   try {
     const group = await db.group.findUnique({
@@ -147,7 +146,7 @@ export const inviteToGroup = async (invitedUserId: string, groupId: string): Pro
  * @param {string} groupId - 가입 요청을 수락할 그룹의 ID
  * @returns {Promise<string>} - 가입 요청 수락 결과 메시지
  */
-export const acceptGroupRequestAndAddUserToGroup = async (userId: string, groupId: string): Promise<string> => {
+export const acceptGroupRequestAndAddUserToGroup = async (userId: string, groupId: string,self:User): Promise<string> => {
   try {
     const request = await db.groupApplication.findFirst({
       where: {
@@ -160,7 +159,7 @@ export const acceptGroupRequestAndAddUserToGroup = async (userId: string, groupI
       throw new Error("가입 신청을 찾을 수 없습니다");
     }
 
-    const self = await getSelf();
+
 
     // 리더가 아닌 사용자가 요청을 수락할 수 없음
     const group = await db.group.findUnique({
@@ -215,24 +214,29 @@ export const viewAllGroups = async ()=> {
   }
 };
 
+
+
+
+
 /**
- * 현재 사용자가 가입한 모든 그룹을 조회하는 함수
- * @returns {Promise<Group>} - 현재 사용자가 가입한 모든 그룹 정보
+ * 나의 그룹을 조회하는 함수
+ * @returns {Promise<Group[]>} - 조회된 모든 그룹 목록
  */
-export const viewMyGroups = async () => {
-  const self = await getSelf();
-
+export const viewMyGroups = async (self:any): Promise<Group[]>=> {
   try {
-    const group = await db.group.findUnique({
-      where: { id: self.id },
-      include: {
-        groupUser: true,
+    const allGroups = await db.group.findMany({
+      where: {
+        groupUser: {
+          some: {
+            id: self.id
+          }
+        }
       },
-    });
-
-    return group;
+    }
+    );
+    return allGroups;
   } catch (error) {
-    console.error("내 그룹 조회 중 오류:", error);
-    throw new Error("내 그룹 조회 중 오류 발생");
+    console.error("그룹 조회 중 오류:", error);
+    throw new Error("그룹 조회 중 오류 발생");
   }
 };

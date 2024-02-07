@@ -14,15 +14,9 @@ const CreatorPage = async ({
 }: CreatorPageProps) => {
   const externalUser = await currentUser();
   const user = await getUserByUsername(params.username);
-  console.log("user")
-  console.log("user")
-  console.log("user")
-  console.log(user)
 
-  console.log("externalUser")
-  console.log("externalUser")
-  console.log("externalUser")
-  console.log(externalUser)
+
+
 
   if (!user || user.externalUserId !== externalUser?.id ) {
     throw new Error("Unauthorized");
