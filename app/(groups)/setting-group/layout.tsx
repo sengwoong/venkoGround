@@ -1,8 +1,10 @@
 
-import { Navbar } from "@/app/(browse)/_components/navbar";
-import { Toggle } from "@/app/(browse)/_components/sidebar/toggle";
-import { Wrapper } from "@/app/(browse)/_components/sidebar/wrapper";
-import { OrgSidebar } from "@/components/org-sidebar";
+import { OrgSidebar } from "@/app/(groups)/setting-group/_components/sidebar/org-sidebar";
+import { Navbar } from "./_components/navbar";
+import { Wrapper } from "./_components/sidebar/wrapper";
+import { Toggle } from "./_components/sidebar/toggle";
+import { Sidebar } from "./_components/sidebar";
+
 
 
 interface DashboardLayoutProps {
@@ -15,12 +17,8 @@ const DashboardLayout = ({
   return (
     
     <main className="h-full">
-          <Navbar />
-  <Wrapper>
-        <Toggle></Toggle>
-        <OrgSidebar />
-        </Wrapper>
-  
+        <Navbar />
+        <Sidebar/>
           <div className="h-full w-full flex-1">
           
             {children}

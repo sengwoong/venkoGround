@@ -23,7 +23,7 @@ export const OrgSidebar = () => {
   return (
     <div className={`${collapsed ? 'w-full  ' : 'lg:flex flex-col space-y-6 w-[206px] pl-5 pt-5'}`}>
       
-      <div className="flex flex-col space-y-1 w-full justify-center">
+      <div className="flex flex-col space-y-1 w-full ">
         <Button
           variant={MyGroup ? "ghost" : "secondary"}
           asChild
@@ -32,7 +32,7 @@ export const OrgSidebar = () => {
         >
           <Link href="/setting-group">
             <LayoutDashboard className="h-6 w-6 " />
-            {!collapsed ? "Team boards":""}
+            {!collapsed ? "Groups":""}
           </Link>
         </Button>
         {collapsed ? (<div className="mt-12"></div>):(<></>)}  
@@ -47,7 +47,7 @@ export const OrgSidebar = () => {
             query: { MyGroup: true }
           }}>
             <Star className="h-6 w-6" />
-            {!collapsed ? "Favorite boards":""}
+            {!collapsed ? "My Group":""}
           
           </Link>
         </Button>

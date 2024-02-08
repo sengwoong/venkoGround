@@ -85,7 +85,7 @@ async function page() {
   
 
   return (
-    <div><GroupPage   handleCreateGroup={handleCreateGroup} handleJoinGroup={handleJoinGroup} handleInviteToGroup={handleInviteToGroup} handleAcceptGroupRequest={handleAcceptGroupRequest} handleViewAllGroups={handleViewAllGroups} handleViewMyGroups={handleViewMyGroups}  allGroups={allGroups}  myGroups={myGroups}></GroupPage></div>
+    <div className='ml-20'><GroupPage   handleCreateGroup={handleCreateGroup} handleJoinGroup={handleJoinGroup} handleInviteToGroup={handleInviteToGroup} handleAcceptGroupRequest={handleAcceptGroupRequest} handleViewAllGroups={handleViewAllGroups} handleViewMyGroups={handleViewMyGroups}  allGroups={allGroups}  myGroups={myGroups}></GroupPage></div>
   )
 }
 
