@@ -14,6 +14,20 @@ const DialogPortal = DialogPrimitive.Portal
 
 const DialogClose = DialogPrimitive.Close
 
+
+
+
+const DialogCloseButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, ...props }) => (
+  <DialogClose asChild>
+  {children}
+  </DialogClose>
+);
+
+export default DialogCloseButton;
+
+
+
+
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -119,4 +133,5 @@ export {
   DialogFooter,
   DialogTitle,
   DialogDescription,
+  DialogCloseButton
 }
