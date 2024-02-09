@@ -1,32 +1,22 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+
 import React from 'react'
 import CreateNewGroups from "./createNewGroups";
-import {  User } from "@prisma/client";
-import GroupCardWapper from "./groupCardWapper";
+import GroupsWapper from './groupsWapper';
+import CardWapper from './cardWapper';
+import { User } from './userType';
+
 interface EmptyGroupProps {
-    self: {
-      id: string;
-      username: string;
-      imageUrl: string;
-      externalUserId: string;
-      bio: string | null;
-      isteacher: boolean;
-      createdAt: Date;
-      updatedAt: Date;
-    };
+    self:User
   }
   
 const EmptyGroup: React.FC<EmptyGroupProps> = ({ self }) => {
   return (
    <div>
-    <GroupCardWapper> 
-    <CreateNewGroups self={self}></CreateNewGroups>
-    </GroupCardWapper>
+    <GroupsWapper> 
+      <CardWapper>
+      <CreateNewGroups self={self}></CreateNewGroups>
+      </CardWapper>
+    </GroupsWapper>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { User } from "@/app/(groups)/setting-group/_components/card/userType";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
  
@@ -17,3 +18,14 @@ export const stringToColor = (str: string) => {
   }
   return color;
 };
+
+
+/**
+ * 사용자 ID와 자신의 ID를 비교하여 사용자의 역할을 반환하는 함수
+ * @param userid 비교할 사용자의 ID
+ * @param self Clerk의 유저정보
+ * @returns 사용자의 역할 (Leader 또는 Crew)
+ */
+export function getRole(userid: string, self: User): string {
+  return userid === self.id ? "Leader" : "Crew";
+}

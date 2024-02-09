@@ -93,7 +93,7 @@ export default async function page() {
         {!allGroups ? (
           <EmptyGroup self={self} />
         ) : (
-          <GroupList self={self} />
+          <GroupList self={self} allGroups={allGroups}/>
         )}
       </div>
 

@@ -1,27 +1,28 @@
 import React from 'react';
 import CreateNewGroups from './createNewGroups';
-import GroupCardWapper from './groupCardWapper';
-
-
+import GroupsWapper from './groupsWapper';
+import CardWapper from './cardWapper';
+import GroupCardContent from './groupCardContent';
+import { ViewAllGroupResult } from './groupType';
+import { User } from './userType';
 
 interface GroupListProps {
-  self: {
-    id: string;
-    username: string;
-    imageUrl: string;
-    externalUserId: string;
-    bio: string | null;
-    isteacher: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-  };
+  self: User
+  allGroups: ViewAllGroupResult[]
 }
 
-function GroupList({ self }: GroupListProps) {
+function GroupList({ self, allGroups }: GroupListProps) {
   return (
-    <GroupCardWapper> 
-      <CreateNewGroups self={self} />
-    </GroupCardWapper>
+    <GroupsWapper>
+      <CardWapper>
+        <CreateNewGroups self={self} />
+      </CardWapper>
+      {allGroups.map(group => (
+        <CardWapper key={group.id}>
+          <GroupCardContent self={self} group={group} />
+        </CardWapper>
+      ))}
+    </GroupsWapper>
   );
 }
 

@@ -73,6 +73,7 @@ export const requestToJoinGroup = async (groupId: string,self:User): Promise<str
         groupId: groupId,
         status: false,
         userId: self.id,
+        username: self.username
       },
     });
 
@@ -206,8 +207,16 @@ export const acceptGroupRequestAndAddUserToGroup = async (userId: string, groupI
  */
 export const viewAllGroups = async ()=> {
   try {
-    const allGroups = await db.group.findMany();
+    const allGroups = await db.group.findMany({
+      include: {
+        drawTables: true,  // drawTables 테이블을 가져옵니다.
+        groupUser: true,   // groupUser 테이블을 가져옵니다.
+        groupNotifications: true,  // groupNotifications 테이블을 가져옵니다.
+        groupApplications: true    // groupApplications 테이블을 가져옵니다.
+      }
+    });
     return allGroups;
+    
   } catch (error) {
     console.error("그룹 조회 중 오류:", error);
     throw new Error("그룹 조회 중 오류 발생");
@@ -240,3 +249,46 @@ export const viewMyGroups = async (self:any): Promise<Group[]>=> {
     throw new Error("그룹 조회 중 오류 발생");
   }
 };
+
+
+/**
+ * 그룹에서 사용자를 강퇴하는 함수
+ * @param {string} groupId - 강퇴할 그룹의 ID
+ * @param {string} userId - 강퇴할 사용자의 ID
+ * @param {User} self - 현재 로그인한 사용자
+ * @returns {Promise<string>} - 강퇴 결과 메시지
+ */
+export const removeUserFromGroup = async (groupId: string, userId: string, self: User): Promise<string> => {
+  try {
+    // 리더인지 확인
+    const group = await db.group.findUnique({
+      where: { id: groupId },
+    });
+
+    if (!group) {
+      throw new Error("그룹을 찾을 수 없습니다");
+    }
+
+    if (group.leader !== self.id) {
+      throw new Error("리더만이 다른 사용자를 그룹에서 강퇴할 수 있습니다");
+    }
+
+    // 사용자를 그룹에서 제거
+    await db.group.update({
+      where: { id: groupId },
+      data: {
+        groupUser: {
+          disconnect: {
+            id: userId,
+          },
+        },
+      },
+    });
+
+    return "사용자가 그룹에서 성공적으로 강퇴되었습니다";
+  } catch (error) {
+    console.error("그룹에서 사용자를 강퇴 중 오류:", error);
+    throw new Error("그룹에서 사용자를 강퇴 중 오류 발생");
+  }
+};
+

@@ -33,6 +33,7 @@ model GroupApplication {
   groupId           String
   group             Group     @relation(fields: [groupId], references: [id])
   userId            String    @unique
+  username          String
   user              User      @relation(fields: [userId], references: [id])
 }
 
