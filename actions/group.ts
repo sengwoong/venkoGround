@@ -1,6 +1,6 @@
 "use server";
 
-import { createGroup, removeUserFromGroup } from "@/lib/group-service";
+import { acceptGroupRequestAndAddUserToGroup, createGroup, leaveGroup, removeUserFromGroup } from "@/lib/group-service";
 import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -23,5 +23,34 @@ export const removeCrewForGroup = async (groupId: string, userId: string, self: 
   } catch (error) {
     console.error("그룹에서 사용자 강퇴 중 오류:", error);
     throw new Error("그룹에서 사용자 강퇴 중 오류 발생");
+  }
+};
+
+
+export const handleAcceptGroupRequest = async (userId: string, groupId: string,self:User) => {
+  "use server";
+  try {
+    await acceptGroupRequestAndAddUserToGroup(userId, groupId, self);
+    revalidatePath("/setting-group");
+    console.log('가입 요청이 성공적으로 수락되었습니다.');
+
+  } catch (error) {
+    console.error('가입 요청 수락 중 오류:', error);
+  }
+};
+
+
+
+
+
+export const handleleaveGroup = async ( groupId: string,self:User) => {
+  "use server";
+  try {
+    await leaveGroup( groupId, self);
+    revalidatePath("/setting-group");
+    console.log('가입 요청이 성공적으로 수락되었습니다.');
+
+  } catch (error) {
+    console.error('가입 요청 수락 중 오류:', error);
   }
 };

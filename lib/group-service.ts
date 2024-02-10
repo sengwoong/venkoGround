@@ -141,65 +141,93 @@ export const inviteToGroup = async (invitedUserId: string, groupId: string,self:
   }
 };
 
+
+
 /**
  * 그룹 가입 요청을 수락하고 그룹에 사용자를 추가하는 함수
  * @param {string} userId - 가입 요청을 수락할 사용자의 ID
  * @param {string} groupId - 가입 요청을 수락할 그룹의 ID
+ * @param {object} self - 현재 사용자 정보
  * @returns {Promise<string>} - 가입 요청 수락 결과 메시지
  */
-export const acceptGroupRequestAndAddUserToGroup = async (userId: string, groupId: string,self:User): Promise<string> => {
+export const acceptGroupRequestAndAddUserToGroup = async (userId:string, groupId:string, self:User) => {
+  let responseMessage = "";
+  let transactionError = null;
+
+  console.log("groupId")
+  console.log(groupId)
+
+  console.log("userId")
+  console.log(userId)
   try {
-    const request = await db.groupApplication.findFirst({
-      where: {
-        groupId: groupId,
-        userId: userId,
-      },
-    });
+    await db.$transaction(async (prisma) => {
+      const request = await prisma.groupApplication.findFirst({
+        where: {
+          groupId: groupId,
+          userId: userId,
+        },
+      });
+      console.log("groupApplication 에서 해당 유저를 가져옴")
+      console.log(request)
 
-    if (!request) {
-      throw new Error("가입 신청을 찾을 수 없습니다");
-    }
+      if (!request) {
+        throw new Error("가입 신청을 찾을 수 없습니다");
+      }
+
+      // 리더가 아닌 사용자가 요청을 수락할 수 없음
+      const group = await prisma.group.findUnique({
+        where: { id: groupId },
+        include: {
+          groupUser: true,
+        },
+      });
 
 
+      console.log("group 과 리더가 맞는지 확인중 그룹장리더가누구인지 보기")
+      console.log(group?.leader)
+      console.log( self.id)
 
-    // 리더가 아닌 사용자가 요청을 수락할 수 없음
-    const group = await db.group.findUnique({
-      where: { id: groupId },
-      include: {
-        groupUser: true,
-      },
-    });
 
-    if (!group || group.leader === self.id) {
-      throw new Error("사용자는 리더가 아닙니다");
-    }
+      if (!group && group!.leader == self.id) {
+        throw new Error("사용자는 리더가 아닙니다");
+      }
 
-    // 가입 신청 승인 (승인을 했으니 대기자 명단에서 삭제)
-    await db.groupApplication.delete({
-      where: {
-        groupId: groupId,
-        userId: userId,
-      },
-    });
+      // 가입 신청 승인 (승인을 했으니 대기자 명단에서 삭제)
+      await prisma.groupApplication.delete({
+        where: {
+          groupId: groupId,
+          userId: userId,
+        },
+      });
 
-    // 그룹에 사용자 추가
-    await db.group.update({
-      where: { id: groupId },
-      data: {
-        groupUser: {
-          connect: {
-            id: userId,
+      // 그룹에 사용자 추가
+      await prisma.group.update({
+        where: { id: groupId },
+        data: {
+          groupUser: {
+            connect: {
+              id: userId,
+            },
           },
         },
-      },
-    });
+      });
 
-    return "그룹 가입 요청이 성공적으로 수락되었습니다";
+      responseMessage = "그룹 가입 요청이 성공적으로 수락되었습니다";
+    });
   } catch (error) {
-    console.error("그룹 가입 요청 수락 및 사용자 추가 중 오류:", error);
-    throw new Error("그룹 가입 요청 수락 및 사용자 추가 중 오류 발생");
+    transactionError = error;
+  } finally {
+    if (transactionError) {
+      console.error("트랜잭션 중 오류 발생:", transactionError);
+      throw new Error("그룹 가입 요청 수락 및 사용자 추가 중 오류 발생");
+    } else {
+      console.log("트랜잭션 성공:", responseMessage);
+      return responseMessage;
+    }
   }
 };
+
+
 
 /**
  * 모든 그룹을 조회하는 함수
@@ -292,3 +320,56 @@ export const removeUserFromGroup = async (groupId: string, userId: string, self:
   }
 };
 
+
+/**
+ * 그룹에서 나가는 함수
+ * @param {string} userId - 그룹을 나갈 사용자의 ID
+ * @param {string} groupId - 그룹을 나갈 그룹의 ID
+ * @param {object} self - 현재 사용자 정보
+ * @returns {Promise<string>} - 그룹 탈퇴 결과 메시지
+ */
+export const leaveGroup = async ( groupId:string, self:User) => {
+  let responseMessage = "";
+  let transactionError = null;
+
+  try {
+    await db.$transaction(async (prisma) => {
+      // 사용자가 그룹 리더인지 확인
+      const group = await prisma.group.findUnique({
+        where: { id: groupId },
+      });
+
+      if (!group) {
+        throw new Error("그룹을 찾을 수 없습니다");
+      }
+
+      if (group.leader === self.id) {
+        throw new Error("그룹 리더는 그룹을 나갈 수 없습니다");
+      }
+
+      // 사용자를 그룹에서 제거
+      await prisma.group.update({
+        where: { id: groupId },
+        data: {
+          groupUser: {
+            disconnect: {
+              id: self.id,
+            },
+          },
+        },
+      });
+
+      responseMessage = "그룹에서 성공적으로 나가셨습니다";
+    });
+  } catch (error) {
+    transactionError = error;
+  } finally {
+    if (transactionError) {
+      console.error("트랜잭션 중 오류 발생:", transactionError);
+      throw new Error("그룹 탈퇴 중 오류 발생");
+    } else {
+      console.log("트랜잭션 성공:", responseMessage);
+      return responseMessage;
+    }
+  }
+};

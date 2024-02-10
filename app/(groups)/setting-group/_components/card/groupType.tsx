@@ -25,10 +25,11 @@ type GroupNotification = {
     type: string;
 };
 
-type GroupApplication = {
+export type GroupApplication = {
     id: string;
     status: boolean;
     groupId: string;
+    username:string;
     userId: string;
 };
 
