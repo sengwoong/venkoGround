@@ -5,7 +5,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogCloseButton } from "@/compo
 import { ViewAllGroupResult } from './groupType';
 import { User } from './userType';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { handleAcceptGroupRequest, handleleaveGroup, removeCrewForGroup } from '@/actions/group';
+import { handleAcceptGroupRequest, handleChangeGroupLeader, handleLeaveGroup, removeCrewForGroup } from '@/actions/group';
 import UserSelecter from './UserSelecter';
 import { getRole } from '@/lib/utils';
 import UserAppleSelecter from './UserAppleSelecter';
@@ -36,9 +36,17 @@ function GroupCardContent({ self, group }: GroupCardProps) {
     
   const LeaveGroup = () => {
     startTransition(() => {
-      handleleaveGroup(group.id, self);   
+      handleLeaveGroup(group.id, self);   
     });
   };
+  
+
+  const ChangeLeader = () => {
+    startTransition(() => {
+      handleChangeGroupLeader(userId,group.id, self);   
+    });
+  };
+
   
   
 
@@ -103,6 +111,45 @@ function GroupCardContent({ self, group }: GroupCardProps) {
                   </div>
                 </>
               )}
+
+
+{content === '유저 강퇴' && (
+                <>
+                  <UserSelecter
+                    isPending={isPending}
+                    UserId={userId}
+                    setUserId={setUserId}
+                    groupUser={group.groupUser}
+                  />
+                  <div className="mt-4 text-right">
+                    <DialogCloseButton>
+                      <button onClick={handleRemoveUser} className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">
+                        {userId ? "강퇴하기" : "메뉴에서 선택하세요"}
+                      </button>
+                    </DialogCloseButton>
+                  </div>
+                </>
+              )}
+
+
+{content === '리더 변경' && (
+                <>
+                  <UserSelecter
+                    isPending={isPending}
+                    UserId={userId}
+                    setUserId={setUserId}
+                    groupUser={group.groupUser}
+                  />
+                  <div className="mt-4 text-right">
+                    <DialogCloseButton>
+                      <button onClick={ChangeLeader} className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600">
+                        {userId ? "강퇴하기" : "메뉴에서 선택하세요"}
+                      </button>
+                    </DialogCloseButton>
+                  </div>
+                </>
+              )}
+
 
 
 {content === '그룹 나가기' && (

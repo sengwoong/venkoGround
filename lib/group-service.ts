@@ -21,13 +21,16 @@ export const createGroup = async (grouptitle: string,self:User ): Promise<string
     try {
       console.log("Inside try block");
       
-      // Rest of your code
       const newGroup = await db.group.create({
         data: {
           grouptitle,
           leader: self.id,
+          groupUser: {
+            connect: [{ id: self.id }], 
+          },
         },
       });
+      
   
       console.log("Group created successfully");
       return "그룹이 성공적으로 생성되었습니다";
@@ -373,3 +376,76 @@ export const leaveGroup = async ( groupId:string, self:User) => {
     }
   }
 };
+
+
+/**
+ * 그룹의 파티장을 변경하는 함수
+ * @param {string} newLeaderId - 새로운 파티장이 될 사용자의 ID
+ * @param {string} groupId - 파티장을 변경할 그룹의 ID
+ * @param {User} self - 현재 로그인한 사용자
+ * @returns {Promise<string>} - 파티장 변경 결과 메시지
+ */
+export const changeGroupLeader = async (newLeaderId: string, groupId: string, self: User): Promise<string> => {
+  let responseMessage = "";
+  let transactionError = null;
+
+  try {
+    await db.$transaction(async (prisma) => {
+      // 그룹을 찾고 그룹의 정보를 가져옵니다.
+      const group = await prisma.group.findUnique({
+        where: { id: groupId },
+        include: {
+          groupUser: true,
+        },
+      });
+
+      if (!group) {
+        throw new Error("그룹을 찾을 수 없습니다");
+      }
+
+      // 현재 사용자가 그룹의 리더인지 확인합니다.
+      if (group.leader !== self.id) {
+        throw new Error("리더만이 그룹의 파티장을 변경할 수 있습니다");
+      }
+      const newLeaderInGroup = await prisma.group.findFirst({
+        where: {
+          groupUser: {
+            some: {
+              id: newLeaderId,
+            }
+          },
+          id: groupId,
+        },
+      });
+      
+      
+
+      if (!newLeaderInGroup) {
+        throw new Error("그룹에 속한 사용자만이 파티장이 될 수 있습니다");
+      }
+
+      // 그룹의 리더를 변경합니다.
+      await prisma.group.update({
+        where: { id: groupId },
+        data: {
+          leader: newLeaderId,
+        },
+      });
+
+       
+
+      responseMessage = "파티장이 성공적으로 변경되었습니다";
+    });
+  } catch (error) {
+    transactionError = error;
+  } finally {
+    if (transactionError) {
+      console.error("트랜잭션 중 오류 발생:", transactionError);
+      throw new Error("그룹 파티장 변경 중 오류 발생");
+    } else {
+      console.log("트랜잭션 성공:", responseMessage);
+      return responseMessage;
+    }
+  }
+};
+

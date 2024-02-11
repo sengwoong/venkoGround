@@ -1,6 +1,6 @@
 "use server";
 
-import { acceptGroupRequestAndAddUserToGroup, createGroup, leaveGroup, removeUserFromGroup } from "@/lib/group-service";
+import { acceptGroupRequestAndAddUserToGroup, changeGroupLeader, createGroup, leaveGroup, removeUserFromGroup } from "@/lib/group-service";
 import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -43,7 +43,7 @@ export const handleAcceptGroupRequest = async (userId: string, groupId: string,s
 
 
 
-export const handleleaveGroup = async ( groupId: string,self:User) => {
+export const handleLeaveGroup = async ( groupId: string,self:User) => {
   "use server";
   try {
     await leaveGroup( groupId, self);
@@ -52,5 +52,18 @@ export const handleleaveGroup = async ( groupId: string,self:User) => {
 
   } catch (error) {
     console.error('가입 요청 수락 중 오류:', error);
+  }
+};
+
+
+export const handleChangeGroupLeader = async (newLeaderId: string, groupId: string, self: User) => {
+  try {
+
+    await changeGroupLeader(newLeaderId, groupId, self);
+
+    revalidatePath("/setting-group");
+  } catch (error) {
+    console.error("그룹 파티장 변경 중 오류:", error);
+
   }
 };
