@@ -8,7 +8,7 @@ interface GroupsWrapperProps {
 function GroupsWapper({children}:GroupsWrapperProps) {
   return (
     <div>
-        <div className="flex w-full h-320px  rounded-md justify-around">
+        <div className=" w-full h-320px  rounded-md ">
             {children}
         </div>
     </div>

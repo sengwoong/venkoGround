@@ -4,6 +4,7 @@ import { Navbar } from "./_components/navbar";
 import { Wrapper } from "./_components/sidebar/wrapper";
 import { Toggle } from "./_components/sidebar/toggle";
 import { Sidebar } from "./_components/sidebar";
+import { Container } from "./_components/container";
 
 
 
@@ -18,10 +19,13 @@ const DashboardLayout = ({
     
     <main className="h-full">
         <Navbar />
+        <Container>
         <Sidebar/>
+        </Container>
           <div className="h-full w-full flex-1">
           
             {children}
+
           </div>
       
     </main>
