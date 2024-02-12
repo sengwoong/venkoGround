@@ -49,7 +49,7 @@ function GroupCardContent({ self, group }: GroupCardProps) {
     <>
       <div key={group.id} className='w-full'>
         <h2 className="text-2xl font-semibold mt-6">{getRole(group.leader, self)}</h2>
-        <p className="text-muted-foreground text-sm mt-2">My Group</p>
+        <p className="text-muted-foreground text-sm mt-2">{group.grouptitle}</p>
         <div className="mt-6">
           <p>무엇을 할 것인가요?</p>
           <Margin top={4}></Margin>
