@@ -18,7 +18,8 @@ export const Toggle = () => {
   return (
     <>
       {collapsed && (
-        <div className="w-full hidden lg:flex items-center justify-center pt-4 mb-4">
+        <div className="w-full flex items-center justify-center pt-4 mb-4">
+          
           <Hint label={label} side="right" asChild>
             <Button
               onClick={onExpand}
@@ -31,8 +32,9 @@ export const Toggle = () => {
         </div>
       )}
       {!collapsed && (
-        <div className="p-3 pl-6 mb-2 hidden lg:flex items-center w-full">
-          <p className="font-semibold text-primary">
+        <div className="p-3 pl-6 mb-2 flex items-center w-full">
+      
+            <p className="font-semibold text-primary">
             Dashboard
           </p>
           <Hint label={label} side="right" asChild>
@@ -46,6 +48,8 @@ export const Toggle = () => {
           </Hint>
         </div>
       )}
+
+      
     </>
   );
 };

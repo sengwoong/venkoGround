@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
 import { cn } from "@/lib/utils";
-import { useCreatorSidebar } from "@/app/store/use-creator-sidebar";
+import { useSidebar } from "@/app/store/use-sidebar";
+
 
 interface ContainerProps {
   children: React.ReactNode;
@@ -13,13 +14,13 @@ interface ContainerProps {
 export const Container = ({
   children,
 }: ContainerProps) => {
+  const matches = useMediaQuery("(max-width: 1024px)");
   const {
     collapsed,
     onCollapse,
     onExpand,
-  } = useCreatorSidebar((state) => state);
-  const matches = useMediaQuery(`(max-width: 1024px)`);
-  
+  } = useSidebar((state) => state);
+
   useEffect(() => {
     if (matches) {
       onCollapse();
@@ -31,7 +32,6 @@ export const Container = ({
   return (
     <div className={cn(
       "flex-1",
-      collapsed ? "ml-[70px]" : "ml-[70px] lg:ml-60"
     )}>
       {children}
     </div>

@@ -12,7 +12,7 @@ const BrowseLayout = ({
   return ( 
     <>
       <Navbar />
-      <div className="flex h-full">
+      <div className="flex h-max">
         <Suspense fallback={<SidebarSkeleton />}>
           <Sidebar />
         </Suspense>

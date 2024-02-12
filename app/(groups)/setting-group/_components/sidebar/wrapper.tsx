@@ -18,7 +18,7 @@ export const Wrapper = ({
 
   if (!isClient) {
     return (
-      <aside className="fixed left-0 flex flex-col w-[70px] lg:w-60 h-full bg-background border-r border-[#2D2E35] z-50">
+      <aside className="left-0 flex flex-col w-[70px] lg:w-60  h-full bg-background border-r border-[#2D2E35] z-50">
         <ToggleSkeleton />
 
 
@@ -29,7 +29,7 @@ export const Wrapper = ({
   return (
     <aside
       className={cn(
-        "fixed left-0 flex flex-col w-60 h-full bg-background border-r border-[#2D2E35] z-50",
+        " left-0 flex flex-col w-60 bg-background h-full border-r border-[#2D2E35] z-50",
         collapsed && "w-[70px]"
       )}
     >

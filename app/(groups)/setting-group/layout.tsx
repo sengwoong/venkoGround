@@ -19,15 +19,16 @@ const DashboardLayout = ({
     
     <main className="h-full">
         <Navbar />
+        <div className="flex h-max">
         <Container>
         <Sidebar/>
         </Container>
-          <div className="h-full w-full flex-1">
+          <div className="h-full w-full">
           
             {children}
 
           </div>
-      
+          </div>
     </main>
   );
 };

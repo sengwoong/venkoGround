@@ -23,7 +23,7 @@ const CreatorPage = async ({
   }
   
   return ( 
-    <div className="h-full">
+    <div className="h-full w-full">
       <StreamPlayer
         user={user}
         stream={user.stream}

@@ -25,10 +25,10 @@ const CreatorLayout = async ({
     <>
       <Navbar />
       <div className="flex h-full">
+      <Container>
         <Sidebar />
-        <Container>
+      </Container>
           {children}
-        </Container>
       </div>
     </>
   );

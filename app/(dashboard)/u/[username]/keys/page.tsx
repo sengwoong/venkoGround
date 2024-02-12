@@ -14,7 +14,7 @@ const KeysPage = async () => {
   }
 
   return ( 
-    <div className="p-6">
+    <div className="p-6 w-full">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">
           Keys & URLs
