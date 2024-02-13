@@ -1,6 +1,6 @@
 "use server";
 
-import { acceptGroupRequestAndAddUserToGroup, changeGroupLeader, createGroup, leaveGroup, removeUserFromGroup } from "@/lib/group-service";
+import { acceptGroupRequestAndAddUserToGroup, changeGroupLeader, createGroup, leaveGroup, removeUserFromGroup, viewAllGroups, viewMyGroups } from "@/lib/group-service";
 import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -57,11 +57,37 @@ export const handleLeaveGroup = async ( groupId: string,self:User) => {
 
 
 export const handleChangeGroupLeader = async (newLeaderId: string, groupId: string, self: User) => {
+  "use server";
   try {
 
     await changeGroupLeader(newLeaderId, groupId, self);
 
     revalidatePath("/setting-group");
+  } catch (error) {
+    console.error("그룹 파티장 변경 중 오류:", error);
+
+  }
+};
+
+
+export const handleGetAllGroups = async (term: string|undefined) => {
+  "use server";
+  try {
+
+    return await viewAllGroups(term);
+
+  } catch (error) {
+    console.error("그룹 파티장 변경 중 오류:", error);
+
+  }
+};
+
+export const handleGetMyGroups = async (term: string|undefined,self: User) => {
+  "use server";
+  try {
+
+    return await viewMyGroups(self,term);
+
   } catch (error) {
     console.error("그룹 파티장 변경 중 오류:", error);
 

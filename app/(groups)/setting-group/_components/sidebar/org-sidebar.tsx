@@ -16,6 +16,7 @@ const font = Poppins({
 });
 
 export const OrgSidebar = () => {
+  
   const searchParams = useSearchParams();
   const MyGroup = searchParams.get("MyGroup");
   const { collapsed } = useSidebar((state) => state);

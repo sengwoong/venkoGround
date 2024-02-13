@@ -230,56 +230,94 @@ export const acceptGroupRequestAndAddUserToGroup = async (userId:string, groupId
   }
 };
 
-
-
-/**
- * 모든 그룹을 조회하는 함수
- * @returns {Promise<Group[]>} - 조회된 모든 그룹 목록
+/** 전체 그룹 찾기
+ *컬럼은 아래가 추가됩니다.
+ *drawTables
+  groupUser
+  groupNotifications
+  groupApplications
+ * @param term 
+ * @returns 
  */
-export const viewAllGroups = async ()=> {
+export const viewAllGroups = async (term: string | undefined) => {
   try {
+    const whereCondition = term && term.trim() !== "" ? {
+      OR: [
+        { grouptitle: { contains: term } },
+        { groupUser: { some: { username: { contains: term } } } }
+      ]
+    } : {};
+
     const allGroups = await db.group.findMany({
       include: {
-        drawTables: true,  // drawTables 테이블을 가져옵니다.
-        groupUser: true,   // groupUser 테이블을 가져옵니다.
-        groupNotifications: true,  // groupNotifications 테이블을 가져옵니다.
-        groupApplications: true    // groupApplications 테이블을 가져옵니다.
-      }
-    });
-    return allGroups;
-    
-  } catch (error) {
-    console.error("그룹 조회 중 오류:", error);
-    throw new Error("그룹 조회 중 오류 발생");
-  }
-};
-
-
-
-
-
-/**
- * 나의 그룹을 조회하는 함수
- * @returns {Promise<Group[]>} - 조회된 모든 그룹 목록
- */
-export const viewMyGroups = async (self:any): Promise<Group[]>=> {
-  try {
-    const allGroups = await db.group.findMany({
-      where: {
-        groupUser: {
-          some: {
-            id: self.id
-          }
-        }
+        drawTables: true,
+        groupUser: true,
+        groupNotifications: true,
+        groupApplications: true
       },
-    }
-    );
+      where: whereCondition
+    });
+
     return allGroups;
   } catch (error) {
     console.error("그룹 조회 중 오류:", error);
     throw new Error("그룹 조회 중 오류 발생");
   }
 };
+/** 나의그룹 찾기
+ *컬럼은 아래가 추가됩니다.
+ *drawTables
+  groupUser
+  groupNotifications
+  groupApplications
+ * @param self 
+ * @param term 
+ * @returns 
+ */
+export const viewMyGroups = async (self: any, term: string | undefined) => {
+  try {
+    const whereCondition = term && term.trim() !== "" ? {
+      AND: [
+        {
+          groupUser: {
+            some: {
+              id: self.id
+            }
+          }
+        },
+        {
+          OR: [
+            { grouptitle: { contains: term } },
+            { groupUser: { some: { username: { contains: term } } } }
+          ]
+        }
+      ]
+    } : {
+      groupUser: {
+        some: {
+          id: self.id
+        }
+      }
+    };
+
+    const myGroups = await db.group.findMany({
+      include: {
+        drawTables: true,
+        groupUser: true,
+        groupNotifications: true,
+        groupApplications: true
+      },
+      where: whereCondition
+    });
+
+    return myGroups;
+  } catch (error) {
+    console.error("나의 그룹 조회 중 오류:", error);
+    throw new Error("나의 그룹 조회 중 오류 발생");
+  }
+};
+
+
 
 
 /**
@@ -322,7 +360,6 @@ export const removeUserFromGroup = async (groupId: string, userId: string, self:
     throw new Error("그룹에서 사용자를 강퇴 중 오류 발생");
   }
 };
-
 
 /**
  * 그룹에서 나가는 함수
@@ -376,7 +413,6 @@ export const leaveGroup = async ( groupId:string, self:User) => {
     }
   }
 };
-
 
 /**
  * 그룹의 파티장을 변경하는 함수

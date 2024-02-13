@@ -18,7 +18,7 @@ export const Search = () => {
     if (!value) return;
 
     const url = qs.stringifyUrl({
-      url: "/search",
+      url: "/setting-group",
       query: { term: value },
     }, { skipEmptyString: true });
 

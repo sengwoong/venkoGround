@@ -21,14 +21,12 @@ const DashboardLayout = ({
         <Navbar />
         <div className="flex h-max">
         <Container>
-        <Sidebar/>
+          <Sidebar/>
         </Container>
-          <div className="h-full w-full">
-          
+        <div className="h-full w-full">
             {children}
-
-          </div>
-          </div>
+        </div>
+        </div>
     </main>
   );
 };
