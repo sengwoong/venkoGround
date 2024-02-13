@@ -4,6 +4,7 @@ import { getSelf } from '@/lib/auth-service';
 import { viewAllGroups, viewMyGroups } from '@/lib/group-service';
 import EmptyGroup from './_components/card/emptyGroup';
 import { redirect } from 'next/navigation';
+import  { PageNation,PageNationScalton } from './_components/card/PageNation';
 
 
 const GroupList = React.lazy(() => import('./_components/card/groupList'));
@@ -31,7 +32,11 @@ console.log(searchParams.term)
       <div className="flex-1 h-[calc(100%-80px)] p-6">
         <Suspense fallback={<EmptyGroup self={self} />}>
           <GroupList self={self} allGroups={allGroups} myGroups={myGroups} />
+        <Suspense fallback={<PageNationScalton  />}>
+          <PageNation totalAllPages={totalAllPages}  totalMyPage={totalMyPages}/>
         </Suspense>
+        </Suspense>
+
       </div>
     </div>
   );
