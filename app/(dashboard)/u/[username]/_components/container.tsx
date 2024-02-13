@@ -22,6 +22,7 @@ export const Container = ({
   } = useSidebar((state) => state);
 
   useEffect(() => {
+ 
     if (matches) {
       onCollapse();
     } else {

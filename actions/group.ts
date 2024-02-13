@@ -74,7 +74,7 @@ export const handleGetAllGroups = async (term: string|undefined) => {
   "use server";
   try {
 
-    return await viewAllGroups(term);
+    return await viewAllGroups(term,1);
 
   } catch (error) {
     console.error("그룹 파티장 변경 중 오류:", error);
@@ -86,7 +86,7 @@ export const handleGetMyGroups = async (term: string|undefined,self: User) => {
   "use server";
   try {
 
-    return await viewMyGroups(self,term);
+    return await viewMyGroups(self,term,1);
 
   } catch (error) {
     console.error("그룹 파티장 변경 중 오류:", error);

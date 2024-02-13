@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/app/store/use-sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -22,7 +23,7 @@ export const OrgSidebar = () => {
   const { collapsed } = useSidebar((state) => state);
 
   return (
-    <div className={`${collapsed ? 'w-full  ' : 'lg:flex flex-col space-y-6 w-[206px] pl-5 pt-5'}`}>
+    <div className={`${collapsed ? 'w-full  ' : 'lg:flex flex-col space-y-6 w-[206px] pl-5 pt-5 p-3'}`}>
       
       <div className="flex flex-col space-y-1 w-full ">
         <Button
@@ -53,6 +54,27 @@ export const OrgSidebar = () => {
           </Link>
         </Button>
       </div>
+    </div>
+  );
+};
+
+
+
+
+export const ToggleSkeleton = () => {
+  return (
+    <div className="p-3 pl-6 lg:flex items-center justify-center w-full">
+      <Skeleton className="h-7 w-7 p-2 mr-1" />
+      <Skeleton className="h-6 w-[100px] p-2" />
+    </div>
+  );
+};
+
+
+export const ToggleMiniSkeleton = () => {
+  return (
+    <div className=" pl-6 lg:flex items-center justify-center w-full">
+      <Skeleton className="h-8 w-8 p-2" />
     </div>
   );
 };

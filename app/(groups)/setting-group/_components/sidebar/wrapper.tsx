@@ -4,7 +4,10 @@ import { useIsClient } from "usehooks-ts";
 
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/app/store/use-sidebar";
-import { ToggleSkeleton } from "./toggle";
+import {  ToggleTitleSkeleton } from "./toggle";
+import { ToggleMiniSkeleton, ToggleSkeleton } from "./org-sidebar";
+
+
 
 interface WrapperProps {
   children: React.ReactNode;
@@ -19,9 +22,22 @@ export const Wrapper = ({
   if (!isClient) {
     return (
       <aside className="left-0 flex flex-col w-[70px] lg:w-60  h-full bg-background border-r border-[#2D2E35] z-50">
+        {collapsed?(
+          <>
+          <ToggleTitleSkeleton/>
+          <ToggleMiniSkeleton/>
+          <ToggleMiniSkeleton/>
+          <ToggleMiniSkeleton/>
+          </>
+
+        ):(
+        <>
+        <ToggleTitleSkeleton/>
         <ToggleSkeleton />
-
-
+        <ToggleSkeleton />
+        <ToggleSkeleton />
+        </>
+        )}
       </aside>
     );
   }

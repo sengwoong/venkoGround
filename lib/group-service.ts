@@ -239,7 +239,7 @@ export const acceptGroupRequestAndAddUserToGroup = async (userId:string, groupId
  * @param term 
  * @returns 
  */
-export const viewAllGroups = async (term: string | undefined) => {
+export const viewAllGroups = async (term: string | undefined,page: number) => {
   try {
     const whereCondition = term && term.trim() !== "" ? {
       OR: [
@@ -248,6 +248,11 @@ export const viewAllGroups = async (term: string | undefined) => {
       ]
     } : {};
 
+    const totalCount = await db.group.count({ where: whereCondition });
+    const totalPages = Math.ceil(totalCount / 2);
+
+
+
     const allGroups = await db.group.findMany({
       include: {
         drawTables: true,
@@ -255,10 +260,12 @@ export const viewAllGroups = async (term: string | undefined) => {
         groupNotifications: true,
         groupApplications: true
       },
-      where: whereCondition
+      where: whereCondition ,
+      skip: (page - 1) * 2,
+      take: 2
     });
 
-    return allGroups;
+    return {totalPages,allGroups};
   } catch (error) {
     console.error("그룹 조회 중 오류:", error);
     throw new Error("그룹 조회 중 오류 발생");
@@ -274,8 +281,10 @@ export const viewAllGroups = async (term: string | undefined) => {
  * @param term 
  * @returns 
  */
-export const viewMyGroups = async (self: any, term: string | undefined) => {
+export const viewMyGroups = async (self: any, term: string | undefined,page: number) => {
   try {
+
+    
     const whereCondition = term && term.trim() !== "" ? {
       AND: [
         {
@@ -300,6 +309,11 @@ export const viewMyGroups = async (self: any, term: string | undefined) => {
       }
     };
 
+    const totalCount = await db.group.count({ where: whereCondition });
+    const totalPages = Math.ceil(totalCount / 2);
+
+    
+
     const myGroups = await db.group.findMany({
       include: {
         drawTables: true,
@@ -307,10 +321,12 @@ export const viewMyGroups = async (self: any, term: string | undefined) => {
         groupNotifications: true,
         groupApplications: true
       },
-      where: whereCondition
+      where: whereCondition,
+      skip: (page - 1) * 2,
+      take: 2
     });
 
-    return myGroups;
+    return {totalPages,myGroups};
   } catch (error) {
     console.error("나의 그룹 조회 중 오류:", error);
     throw new Error("나의 그룹 조회 중 오류 발생");

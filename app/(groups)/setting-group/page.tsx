@@ -23,8 +23,8 @@ console.log(searchParams.term)
 
   const self = await getSelf();
 
-  const allGroups = await viewAllGroups(searchParams.term);
-  const myGroups = await viewMyGroups(self,searchParams.term);
+  const {allGroups,totalPages:totalAllPages} = await viewAllGroups(searchParams.term,1);
+  const {myGroups,totalPages:totalMyPages} = await viewMyGroups(self,searchParams.term,1);
 
   return (
     <div className='ml-20'>

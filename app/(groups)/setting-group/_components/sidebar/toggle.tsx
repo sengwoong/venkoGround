@@ -19,7 +19,7 @@ export const Toggle = () => {
   return (
     <>
       {collapsed && (
-        <div className=" flex flex-col w-full items-center justify-center pt-4 mb-4">
+        <div className="p-3 flex flex-col w-full items-center justify-center pt-4 mb-4">
           <Hint label={label} side="right" asChild>
             <Button
               onClick={onExpand}
@@ -51,11 +51,15 @@ export const Toggle = () => {
   );
 };
 
-export const ToggleSkeleton = () => {
+
+export const ToggleTitleSkeleton = () => {
   return (
-    <div className="p-3 pl-6 mb-2 lg:flex items-center justify-center w-full">
-      <Skeleton className="h-8 w-8 p-2" />
-      <Skeleton className="h-6 w-[100px] p-2" />
-    </div>
+    <>
+      <div className="p-4 pl-6 mb-2 flex items-center w-full pb-7">
+        <Skeleton className="font-semibold text-primary  h-6 w-32 animate-pulse"></Skeleton>
+        <Skeleton className="h-auto p-2 ml-auto rounded-full animate-pulse"></Skeleton>
+      </div>
+    </>
   );
 };
+

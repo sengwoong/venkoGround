@@ -5,6 +5,7 @@ import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import { useCreatorSidebar } from "@/app/store/use-creator-sidebar";
+import { useEffect } from "react";
 
 export const Toggle = () => {
   const {

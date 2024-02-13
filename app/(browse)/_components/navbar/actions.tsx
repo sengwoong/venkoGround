@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clapperboard } from "lucide-react";
+import { Clapperboard,Boxes } from "lucide-react";
 import { 
   SignInButton, 
   UserButton, 
@@ -21,7 +21,7 @@ export const Actions = async () => {
         </SignInButton>
       )}
       {!!user && (
-        <div className="flex items-center gap-x-4">
+        <div className="flex items-center gap-x-5">
           <Button
             size="sm"
             variant="ghost"
@@ -35,11 +35,28 @@ export const Actions = async () => {
               </span>
             </Link>
           </Button>
+
+          <Button
+            size="sm"
+            variant="ghost"
+            className="text-muted-foreground hover:text-primary"
+            asChild
+          >
+            <Link href={`/setting-group`}>
+              <Boxes className="h-5 w-5 lg:mr-2" />
+              <span className="hidden lg:block">
+                Setting
+              </span>
+            </Link>
+          </Button>
+          
           <UserButton
             afterSignOutUrl="/"
           />
         </div>
       )}
+
+
     </div>
   );
 };
