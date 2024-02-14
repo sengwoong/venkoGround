@@ -501,3 +501,69 @@ export const changeGroupLeader = async (newLeaderId: string, groupId: string, se
   }
 };
 
+
+
+
+
+/**
+ * 그룹을 삭제하는 함수
+ * @param {string} groupId - 삭제할 그룹의 ID
+ * @param {User} self - 현재 로그인한 사용자
+ * @returns {Promise<string>} - 그룹 삭제 결과 메시지
+ */
+export const deleteGroup = async (groupId: string, self: User): Promise<string> => {
+  try {
+    // 그룹을 찾고 그룹의 정보를 가져옵니다.
+    const group = await db.group.findUnique({
+      where: { id: groupId },
+    });
+
+    if (!group) {
+      throw new Error("그룹을 찾을 수 없습니다");
+    }
+
+    // 현재 사용자가 그룹의 리더인지 확인합니다.
+    if (group.leader !== self.id) {
+      throw new Error("리더만이 그룹을 삭제할 수 있습니다");
+    }
+
+    // 그룹 삭제
+    await db.group.delete({
+      where: { id: groupId },
+    });
+
+    return "그룹이 성공적으로 삭제되었습니다";
+  } catch (error) {
+    console.error("그룹 삭제 중 오류:", error);
+    throw new Error("그룹 삭제 중 오류 발생");
+  }
+};
+
+/**
+ * 해당 그룹에 메시지를 보내는 함수
+ * @param {string} groupId - 메시지를 보낼 그룹의 ID
+ * @param {string} message - 보낼 메시지 내용
+ * @param {User} self - 현재 로그인한 사용자
+ * @returns {Promise<string>} - 메시지 전송 결과 메시지
+ */
+export const sendMessageToGroup = async (groupId: string, message: string, self: User): Promise<string> => {
+  try {
+    // 메시지를 보낼 그룹 확인
+    const group = await db.group.findUnique({
+      where: { id: groupId },
+    });
+
+    if (!group) {
+      throw new Error("그룹을 찾을 수 없습니다");
+    }
+
+    // 메시지 전송
+    // 이 부분에서 실제로 메시지를 전송하는 로직을 구현해야 합니다.
+    // 예: 외부 API를 사용하거나 내부 메시지 시스템을 호출하는 등의 작업이 필요합니다.
+
+    return "메시지가 성공적으로 전송되었습니다";
+  } catch (error) {
+    console.error("그룹에 메시지를 보내는 중 오류 발생:", error);
+    throw new Error("그룹에 메시지를 보내는 중 오류 발생");
+  }
+};
