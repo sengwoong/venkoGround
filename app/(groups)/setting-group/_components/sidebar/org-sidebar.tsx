@@ -71,15 +71,7 @@ export const ToggleSkeleton = () => {
   return (
     <div className="p-3 pl-6 lg:flex items-center justify-center w-full">
       <Skeleton className="h-7 w-7 p-2 mr-1" />
-      <Skeleton className="h-6 w-[100px] p-2" />
-    </div>
-  );
-};
-
-export const ToggleMiniSkeleton = () => {
-  return (
-    <div className=" pl-6 lg:flex items-center justify-center w-full">
-      <Skeleton className="h-8 w-8 p-2" />
+      <Skeleton className="h-6 w-[100px] p-2 hidden lg:block" />
     </div>
   );
 };

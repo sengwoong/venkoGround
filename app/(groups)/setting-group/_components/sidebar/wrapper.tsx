@@ -5,7 +5,7 @@ import { useIsClient } from "usehooks-ts";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/app/store/use-sidebar";
 import {  ToggleTitleSkeleton } from "./toggle";
-import { ToggleMiniSkeleton, ToggleSkeleton } from "./org-sidebar";
+import {  ToggleSkeleton } from "./org-sidebar";
 
 
 
@@ -19,25 +19,15 @@ export const Wrapper = ({
   const isClient = useIsClient();
   const { collapsed } = useSidebar((state) => state);
 
-  if (!isClient) {
+  if (isClient) {
     return (
-      <aside className="left-0 flex flex-col w-[70px] lg:w-60  h-full bg-background border-r border-[#2D2E35] z-50">
-        {collapsed?(
+      <aside className="left-0 flex flex-col w-[70px] lg:w-60  h-full bg-background border-r border-[#2D2E35] z-50"> 
           <>
           <ToggleTitleSkeleton/>
-          <ToggleMiniSkeleton/>
-          <ToggleMiniSkeleton/>
-          <ToggleMiniSkeleton/>
+          <ToggleSkeleton/>
+          <ToggleSkeleton/>
+          <ToggleSkeleton/>
           </>
-
-        ):(
-        <>
-        <ToggleTitleSkeleton/>
-        <ToggleSkeleton />
-        <ToggleSkeleton />
-        <ToggleSkeleton />
-        </>
-        )}
       </aside>
     );
   }

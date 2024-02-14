@@ -55,9 +55,9 @@ export const Toggle = () => {
 export const ToggleTitleSkeleton = () => {
   return (
     <>
-      <div className="p-4 pl-6 mb-2 flex items-center w-full pb-7">
-        <Skeleton className="font-semibold text-primary  h-6 w-32 animate-pulse"></Skeleton>
-        <Skeleton className="h-auto p-2 ml-auto rounded-full animate-pulse"></Skeleton>
+      <div className="p-4 pl-6 mb-2 flex items-center w-full pb-7 ">
+        <Skeleton className="font-semibold text-primary  h-6 w-32 animate-pulse  "></Skeleton>
+        <Skeleton className="h-auto p-2 ml-auto rounded-full animate-pulse  hidden lg:block"></Skeleton>
       </div>
     </>
   );
