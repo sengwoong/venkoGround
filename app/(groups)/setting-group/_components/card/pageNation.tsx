@@ -1,17 +1,35 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {  useSearchParams } from "next/navigation";
+import Link from 'next/link';
 import { usePageNation } from '@/app/store/use-pagenation';
-
 interface PageNationProps {
   totalAllPages: number;
 }
 
 export function PageNation({ totalAllPages }: PageNationProps) {
-  const { page, setPage } = usePageNation();
 
+
+  const searchParams = useSearchParams()
+  const params = new URLSearchParams(searchParams.toString())
+  // pageValue 는 초기설정용이며, 파람이 바뀔때마다 값이 바뀌지 않음
+  const pageValue = params.get('page'); 
+  const { page,setPage } = usePageNation();
+
+
+
+
+  function updateSorting(page: string) {
+    params.set('page', page)
+    window.history.pushState(null, '', `?${params.toString()}`)
+  }
+
+
+  
   const handlePageClick = (pageNumber: number) => {
     setPage(pageNumber);
+    updateSorting(pageNumber.toString())
   };
 
   const renderPageNumbers = () => {
@@ -30,6 +48,8 @@ export function PageNation({ totalAllPages }: PageNationProps) {
 
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(
+      
+
         <span
           key={i}
           onClick={() => handlePageClick(i)}
@@ -37,6 +57,7 @@ export function PageNation({ totalAllPages }: PageNationProps) {
         >
           {i}
         </span>
+     
       );
     }
 
@@ -64,33 +85,34 @@ export function PageNation({ totalAllPages }: PageNationProps) {
   return (
     <div className="pagination-container flex justify-center items-center p-3 bg-blue-800  font-mono" >
       <div className="paginationcon flex  w-32 ">
-        {1<page-2?(   <span
+        {1<page-2?(      
+        <span
           key={1}
           onClick={() => handlePageClick(1)}
           className={page === 1 ? 'text-white' : 'text-black'}
         >
-          {1}
-        </span>):(<></>)}
+        1
+        </span>
+      
+        ):(<></>)}
         {renderPageNumbers()}
-        {page<totalAllPages-2?(   <span
+        {page<totalAllPages-2?( 
+            
+            
+          
+                
+                <span
           key={totalAllPages}
           onClick={() => handlePageClick(totalAllPages)}
           className={page === totalAllPages ? 'text-white' : 'text-black'}
         >
           {totalAllPages}
-        </span>):(<></>)}
+        </span>
+        
+      
+        ):(<></>)}
 
     
-      </div>
-    </div>
-  );
-}
-
-export function PageNationScalton() {
-  return (
-    <div className="pagination-container flex">
-      <div className="pagination-scalton">
-        Loading...
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 
 import React from 'react'
 import CreateNewGroups from "./createNewGroups";
-import GroupsWapper from './groupsWapper';
+import GroupsWapper from '../page/group/groupsWapper';
 import CardWapper from './cardWapper';
-import { User } from './userType';
+import { User } from '../../../../../../type/userType';
 
 interface EmptyGroupProps {
     self:User

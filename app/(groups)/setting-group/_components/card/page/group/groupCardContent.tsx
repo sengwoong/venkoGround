@@ -1,12 +1,12 @@
 "use client"
 import React, { useState, useTransition } from 'react';
 import { Dialog, DialogTrigger, DialogContent, DialogCloseButton } from "@/components/ui/dialog";
-import { ViewAllGroupResult } from './groupType';
-import { User } from './userType';
+import { ViewAllGroupResult } from '../../../../../../../type/groupType';
+import { User } from '../../../../../../../type/userType';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { handleAcceptGroupRequest, handleChangeGroupLeader, handleLeaveGroup, removeCrewForGroup } from '@/actions/group';
-import UserSelecter from './UserSelecter';
-import UserAppleSelecter from './UserAppleSelecter';
+import UserSelecter from '../../_component/UserSelecter';
+import UserAppleSelecter from '../../_component/UserAppleSelecter';
 import { getRole } from '@/lib/utils';
 import Margin from '@/components/ui/margin';
 import { Button } from '@/components/ui/button';
@@ -69,7 +69,7 @@ function GroupCardContent({ self, group }: GroupCardProps) {
               {getRole(group.leader, self) === 'Leader' && (
                 <SelectGroup>
                   <SelectLabel className='text-green-400'>리더 권한</SelectLabel>
-                  <SelectItem value={'파티장 변경'}>파티장 변경</SelectItem>
+                  <SelectItem value={'리더 변경'}>파티장 변경</SelectItem>
                   <SelectItem value={'유저 강퇴'}>유저 강퇴</SelectItem>
                   <SelectItem value={'초대 수락'}>초대 수락</SelectItem>
                 </SelectGroup>

@@ -1,17 +1,17 @@
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { User } from './userType';
-import {GroupApplication}from'./groupType'
+import { User } from '../../../../../../type/userType';
+import {GroupApplication}from'../../../../../../type/groupType'
 interface UserSelecterProps {
   isPending: boolean;
   UserId: string;
   setUserId: React.Dispatch<React.SetStateAction<string>>;
-  groupUser: GroupApplication[];
+  groupUser: User[] ;
   
 }
 
 
-const UserAppleSelecter: React.FC<UserSelecterProps> = ({ isPending, UserId, setUserId, groupUser }) => {
+const UserSelecter: React.FC<UserSelecterProps> = ({ isPending, UserId, setUserId, groupUser }) => {
   return (
     <>
    <p className='text-black'>유저 리스트</p>
@@ -29,8 +29,8 @@ const UserAppleSelecter: React.FC<UserSelecterProps> = ({ isPending, UserId, set
           <SelectItem value={'초기화'}>참여 유저가 없습니다.</SelectItem>
         ) : (
           groupUser.map((user) => (
-            <SelectItem key={user.userId} value={user.userId}>  
-     
+            <SelectItem key={user.id} value={user.id}>  
+            {/* userId 인데 user.id 로 해서 하나더만들어야해 */}
               {user.username}
             </SelectItem>
           ))
@@ -41,4 +41,4 @@ const UserAppleSelecter: React.FC<UserSelecterProps> = ({ isPending, UserId, set
   );
 }
 
-export default UserAppleSelecter;
+export default UserSelecter;

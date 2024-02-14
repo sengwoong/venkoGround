@@ -1,4 +1,4 @@
-import { User } from "@/app/(groups)/setting-group/_components/card/userType";
+import { User } from "@/type/userType";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
  

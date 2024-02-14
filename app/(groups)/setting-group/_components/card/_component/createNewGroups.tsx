@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog,  DialogCloseButton, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { onCreate } from '@/actions/group';
 import { toast } from 'sonner';
-import { User } from './userType';
+import { User } from '../../../../../../type/userType';
+
 
 interface EmptyGroupProps {
   self: User

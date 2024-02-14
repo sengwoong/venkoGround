@@ -8,7 +8,7 @@ interface PageNationStore {
 }
 
 export const usePageNation = create<PageNationStore>((set) => ({
-  page: 0,
+  page: 1,
   setPage: (page: number) => set({ page }),
   nextPage: () => set((state) => ({ page: state.page + 1 })),
   prevPage: () => set((state) => ({ page: state.page - 1 })),
