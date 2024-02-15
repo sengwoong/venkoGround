@@ -1,7 +1,7 @@
 
 import React from 'react'
 import CreateNewGroups from "./createNewGroups";
-import GroupsWapper from '../page/group/groupsWapper';
+import GroupsWapper from '../../page/group/groupsWapper';
 import CardWapper from './cardWapper';
 import { User } from '../../../../../../type/userType';
 

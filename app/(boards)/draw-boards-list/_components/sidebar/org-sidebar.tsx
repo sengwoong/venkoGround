@@ -39,7 +39,7 @@ export const OrgSidebar = () => {
           onClick={setPageToOne}
         >
           <Link href={{
-            pathname: "/setting-group",
+            pathname: "/draw-boards-list",
             query: { page: 1 }
           }}>
             <LayoutDashboard className="h-6 w-6" />
@@ -55,8 +55,8 @@ export const OrgSidebar = () => {
           onClick={setPageToOne}
         >
           <Link href={{
-            pathname: "/setting-group",
-            query: { MyGroup: true, page: 1 }
+            pathname: "/draw-boards-list",
+            query: { MyBoard: true, page: 1 }
           }}>
             <Star className="h-6 w-6" />
             {!collapsed ? "My Group" : ""}

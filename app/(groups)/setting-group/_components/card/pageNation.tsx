@@ -14,18 +14,11 @@ export function PageNation({ totalAllPages }: PageNationProps) {
 
   const searchParams = useSearchParams()
   const params = new URLSearchParams(searchParams.toString())
-  // pageValue 는 초기설정용이며, 파람이 바뀔때마다 값이 바뀌지 않음
-  const pageValue = params.get('page'); 
   const { page,setPage } = usePageNation();
-
-
-
 
   function updateSorting(page: string) {
     params.set('page', page)
     window.history.pushState(null, '', `?${params.toString()}`)
-    console.log("params.toString()")
-    console.log(params.toString())
     reFetchSettingGroup(params.toString())
   }
 

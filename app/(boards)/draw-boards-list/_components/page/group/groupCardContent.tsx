@@ -1,15 +1,16 @@
 "use client"
 import React, { useState, useTransition } from 'react';
 import { Dialog, DialogTrigger, DialogContent, DialogCloseButton } from "@/components/ui/dialog";
-import { ViewAllGroupResult } from '../../../../../../../type/groupType';
-import { User } from '../../../../../../../type/userType';
+import { ViewAllGroupResult } from '../../../../../../type/groupType';
+import { User } from '../../../../../../type/userType';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { handleAcceptGroupRequest, handleChangeGroupLeader, handleLeaveGroup, removeCrewForGroup } from '@/actions/group';
-import UserSelecter from '../../_component/UserSelecter';
-import UserAppleSelecter from '../../_component/UserAppleSelecter';
+import UserSelecter from '../../card/_component/UserSelecter';
+import UserAppleSelecter from '../../card/_component/UserAppleSelecter';
 import { getRole } from '@/lib/utils';
 import Margin from '@/components/ui/margin';
 import { Button } from '@/components/ui/button';
+import { usePageNation } from '@/app/store/use-pagenation';
 
 interface GroupCardProps {
   self: User;
@@ -20,28 +21,28 @@ function GroupCardContent({ self, group }: GroupCardProps) {
   const [content, setContent] = useState<string>('유저 검색');
   const [userId, setUserId] = useState<string>('');
   const [isPending, startTransition] = useTransition();
-
+  const { url } = usePageNation();
   const handleRemoveUser = () => {
     startTransition(() => {
-      removeCrewForGroup(group.id, userId, self);   
+      removeCrewForGroup(group.id, userId, self,url);   
     });
   };
 
   const AddGroup = () => {
     startTransition(() => {
-      handleAcceptGroupRequest(userId, group.id, self);   
+      handleAcceptGroupRequest(userId, group.id, self,url);   
     });
   };
 
   const LeaveGroup = () => {
     startTransition(() => {
-      handleLeaveGroup(group.id, self);   
+      handleLeaveGroup(group.id, self,url);   
     });
   };
 
   const ChangeLeader = () => {
     startTransition(() => {
-      handleChangeGroupLeader(userId, group.id, self);   
+      handleChangeGroupLeader(userId, group.id, self,url);   
     });
   };
 

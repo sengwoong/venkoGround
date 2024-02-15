@@ -1,11 +1,11 @@
 "use client"
 
 import React from 'react';
-import CreateNewGroups from '../../_component/createNewGroups';
+import CreateNewGroups from '../../card/_component/createNewGroups';
 import GroupsWapper from './groupsWapper';
-import CardWapper from '../../_component/cardWapper';
+import CardWapper from '../../card/_component/cardWapper';
 import GroupCardContent from './groupCardContent';
-import { User } from '../../../../../../../type/userType';
+import { User } from '../../../../../../type/userType';
 import { useSearchParams } from 'next/navigation';
 import { ViewAllGroupResult } from '@/type/groupType';
 
@@ -19,7 +19,7 @@ interface GroupListProps {
 function GroupList({ self,allGroups,myGroups}: GroupListProps) {
 
   const searchParams = useSearchParams();
-  const MyGroupParm = searchParams.get("MyGroup");
+  const MyGroupParm = searchParams.get("MyBoard");
   
   return (
     <GroupsWapper>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import {  useSearchParams } from "next/navigation";
 import Link from 'next/link';
 import { usePageNation } from '@/app/store/use-pagenation';
+import {reFetchSettingGroup} from '@/actions/rerodePath'
 interface PageNationProps {
   totalAllPages: number;
 }
@@ -13,16 +14,12 @@ export function PageNation({ totalAllPages }: PageNationProps) {
 
   const searchParams = useSearchParams()
   const params = new URLSearchParams(searchParams.toString())
-  // pageValue 는 초기설정용이며, 파람이 바뀔때마다 값이 바뀌지 않음
-  const pageValue = params.get('page'); 
   const { page,setPage } = usePageNation();
-
-
-
 
   function updateSorting(page: string) {
     params.set('page', page)
     window.history.pushState(null, '', `?${params.toString()}`)
+    reFetchSettingGroup(params.toString())
   }
 
 
@@ -113,6 +110,16 @@ export function PageNation({ totalAllPages }: PageNationProps) {
         ):(<></>)}
 
     
+      </div>
+    </div>
+  );
+}
+
+export function PageNationScalton() {
+  return (
+    <div className="pagination-container flex">
+      <div className="pagination-scalton">
+        Loading...
       </div>
     </div>
   );

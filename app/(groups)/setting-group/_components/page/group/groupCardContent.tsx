@@ -10,6 +10,7 @@ import UserAppleSelecter from '../../card/_component/UserAppleSelecter';
 import { getRole } from '@/lib/utils';
 import Margin from '@/components/ui/margin';
 import { Button } from '@/components/ui/button';
+import { usePageNation } from '@/app/store/use-pagenation';
 
 interface GroupCardProps {
   self: User;
@@ -20,28 +21,28 @@ function GroupCardContent({ self, group }: GroupCardProps) {
   const [content, setContent] = useState<string>('유저 검색');
   const [userId, setUserId] = useState<string>('');
   const [isPending, startTransition] = useTransition();
-
+  const { url } = usePageNation();
   const handleRemoveUser = () => {
     startTransition(() => {
-      removeCrewForGroup(group.id, userId, self);   
+      removeCrewForGroup(group.id, userId, self,url);   
     });
   };
 
   const AddGroup = () => {
     startTransition(() => {
-      handleAcceptGroupRequest(userId, group.id, self);   
+      handleAcceptGroupRequest(userId, group.id, self,url);   
     });
   };
 
   const LeaveGroup = () => {
     startTransition(() => {
-      handleLeaveGroup(group.id, self);   
+      handleLeaveGroup(group.id, self,url);   
     });
   };
 
   const ChangeLeader = () => {
     startTransition(() => {
-      handleChangeGroupLeader(userId, group.id, self);   
+      handleChangeGroupLeader(userId, group.id, self,url);   
     });
   };
 
