@@ -78,11 +78,12 @@ export function PageNation({ totalAllPages }: PageNationProps) {
 
     return pageNumbers;
   };
+  console.log(totalAllPages)
 
   return (
     <div className="pagination-container flex justify-center items-center p-3 bg-blue-800  font-mono" >
       <div className="paginationcon flex  w-32 ">
-        {1<page-2?(      
+        {1<page-2 && totalAllPages > 5?(      
         <span
           key={1}
           onClick={() => handlePageClick(1)}
@@ -93,7 +94,7 @@ export function PageNation({ totalAllPages }: PageNationProps) {
       
         ):(<></>)}
         {renderPageNumbers()}
-        {page<totalAllPages-2?( 
+        {page<totalAllPages-2&& totalAllPages > 5?( 
             
             
           

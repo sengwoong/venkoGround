@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { User } from "@prisma/client";
 
 // 사용자가 속한 모든 그룹의 보드 리스트 가져오기
-export async function getBoardsOfUserGroups(userId:string, page:number) {
+export async function getBoardsOfUserGroups(userId:string, page:number=1) {
   const pageSize = 10;
   try {
     // 사용자가 속한 그룹을 찾고, 각 그룹의 보드를 가져옵니다.
@@ -50,7 +50,7 @@ export async function getBoardsOfUserGroups(userId:string, page:number) {
 }
 
 // 사용자가 리더인 보드 리스트 가져오기
-export async function getBoardsLeaderByUser(userId:string, page:number) {
+export async function getBoardsLeaderByUser(userId:string, page:number=1) {
   const pageSize = 10;
   try {
 

@@ -19,7 +19,7 @@ const DashboardLayout = ({
     
     <main className="h-full">
         <Navbar />
-        <div className="flex h-max">
+        <div className="flex min-h-screen h-max">
         <Container>
           <Sidebar/>
         </Container>

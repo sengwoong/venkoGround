@@ -32,6 +32,11 @@ const {page,term}=searchParams
   // 데이터 불러오는 로직을 한번더 나눠야할듯 대신에 PageNationStore 사용하기 서스펜스 두개랑 같이 들고가야할듯
   const {userGroupsBoards,totalBoardPages:totalAllPages} = await getBoardsOfUserGroups(self.id,page!);
   const {userLeaderBoards,totalBoardPages:totalMyPages} = await getBoardsLeaderByUser(self.id,page!);
+  // 페이지 네이션이 하나만 있어도 충분할것 같음
+  // 그룹 기준에서 페이지 네이션이 있어야함
+
+  // 보드는 그냥 다들고오게 변경해야함
+  // 그러니 페이지 네이션 로직을 위로 올리거나 버튼 클릭식으로 바꿔야함
   console.log("totalAllPages")
   console.log(totalAllPages)
   console.log(totalAllPages)
@@ -39,8 +44,8 @@ const {page,term}=searchParams
   console.log(totalMyPages)
   console.log(totalMyPages)
   return (
-    <div className='ml-20'>
-      <div className="flex-1 h-[calc(100%-80px)] p-6 ">
+    <div className='ml-20  w-full'>
+      <div className="flex-1 h-[calc(100%-80px)] p-6  w-full ">
       <Suspense fallback={<EmptyGroup self={self} />}>
         <GroupList userGroupsBoards={userGroupsBoards} userLeaderBoards={userLeaderBoards}totalAllPages={searchParams.term? totalAllPages:totalMyPages} ></GroupList>
         <Suspense fallback={<EmptyGroup self={self} />}>

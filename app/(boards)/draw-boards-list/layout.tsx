@@ -22,7 +22,7 @@ const DashboardLayout = ({
     <Container>
       <Sidebar/>
     </Container>
-    <div className="h-full w-full">
+    <div className="h-full w-2/3">
         {children}
     </div>
     </div>

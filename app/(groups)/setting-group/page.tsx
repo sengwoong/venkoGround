@@ -20,6 +20,7 @@ interface SearchPageProps {
   searchParams: {
     term?: string;
     page?: number;
+    MyGroup?:string
   };
 }
 
@@ -29,7 +30,7 @@ export default async function page({searchParams}:SearchPageProps) {
 console.log(!searchParams.page)
 console.log(searchParams.page)
 console.log(searchParams.page)
-const {page,term}=searchParams
+const {page,term,MyGroup}=searchParams
   const self = await getSelf();
 
   // 데이터 불러오는 로직을 한번더 나눠야할듯 대신에 PageNationStore 사용하기 서스펜스 두개랑 같이 들고가야할듯
@@ -43,7 +44,7 @@ const {page,term}=searchParams
         <Suspense fallback={<EmptyGroup self={self} />}>
           <GroupList self={self} allGroups={allGroups} myGroups={myGroups} />
         <Suspense fallback={<></>}>
-          <PageNation totalAllPages={searchParams.term? totalAllPages:totalMyPages} />
+          <PageNation totalAllPages={MyGroup != 'true'? totalAllPages:totalMyPages} />
         </Suspense>
         </Suspense>
       </div>

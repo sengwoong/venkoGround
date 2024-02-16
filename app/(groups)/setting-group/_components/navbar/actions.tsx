@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clapperboard } from "lucide-react";
+import { Brush, Clapperboard } from "lucide-react";
 import { 
   SignInButton, 
   UserButton, 
@@ -22,14 +22,21 @@ export const Actions = async () => {
       )}
       {!!user && (
         <div className="flex items-center gap-x-4">
+        
           <Button
             size="sm"
             variant="ghost"
             className="text-muted-foreground hover:text-primary"
             asChild
           >
-         
+            <Link href={`/draw-boards-list`}>
+              <Brush className="h-5 w-5 lg:mr-2" />
+              <span className="hidden lg:block">
+                draw
+              </span>
+            </Link>
           </Button>
+
           <UserButton
             afterSignOutUrl="/"
           />

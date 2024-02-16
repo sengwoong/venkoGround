@@ -3,14 +3,12 @@
 import React from 'react';
 import BoardWapper from './boardWapper';
 import CardWapper from '../../card/_component/cardWapper';
-import BoardCardContent from './groupCardContent';
 import { User } from '@/type/userType';
 import { useSearchParams } from 'next/navigation';
-import { ViewAllGroupResult } from '@/type/groupType';
 import CreateNewBoard from '../../card/_component/createNewBaord';
 import { UserLeaderGroup } from '@/type/boardType';
 import { useGroupStore } from '@/app/store/use-board-get-gruop-id';
-import { UploadButton } from '@/app/utils/uploadthing';
+import { BoardCard } from './BoardCard';
 
 interface BoardListProps {
   self: User;
@@ -38,24 +36,7 @@ function BoardList({ self, userGroupsBoards, userLeaderBoards }: BoardListProps)
         </CardWapper>
       </div>
       <div className="mb-4">
-
- 
-{/* 이미지 */}
- 
-     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-       <UploadButton
-         endpoint="imageUploader"
-         onClientUploadComplete={(res) => {
-           // Do something with the response
-           console.log("Files: ", res);
-           alert("Upload Completed");
-         }}
-         onUploadError={(error: Error) => {
-           // Do something with the error.
-           alert(`ERROR! ${error.message}`);
-         }}
-       />
-     </main>
+    
   
 
         {!MyGroupParm ? (
@@ -64,15 +45,24 @@ function BoardList({ self, userGroupsBoards, userLeaderBoards }: BoardListProps)
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
               {userGroupsBoards.map(group => (
                 <React.Fragment key={group.id}>
+                  {/* // 그룹이 선택되어있고 그룹아이디가 없으면 생성 */}
                   {selectedGroupId === group.id && selectedGroupId !== '' ? (
-                    <CardWapper>
-                      {group.id}
-                    </CardWapper>
+                    <>
+                    {group.drawTables.map((x, index) => ( 
+                  
+                
+                     <BoardCard id={index.toString()} board={x}></BoardCard>
+            
+                    ))}
+                  </>
                   ) : (
+                    // 검색이없고 그룹 선택이없을경우 모든값을 불러옴
                     selectedGroupId === '' || selectedGroupId === null ? (
-                      <CardWapper>
-                        {group.id}
-                      </CardWapper>
+                      <>
+                         {group.drawTables.map((x, index) => ( 
+                     <BoardCard id={index.toString()} board={x}></BoardCard>
+                    ))}
+                      </>
                     ) : (
                       <></>
                     )
@@ -88,14 +78,18 @@ function BoardList({ self, userGroupsBoards, userLeaderBoards }: BoardListProps)
             {userLeaderBoards.map(group => (
               <React.Fragment key={group.id}>
                 {selectedGroupId === group.id && selectedGroupId !== '' ? (
-                  <CardWapper>
-                    {group.id}
-                  </CardWapper>
+                  <>
+                     {group.drawTables.map((x, index) => ( 
+                     <BoardCard id={index.toString()} board={x}></BoardCard>
+                    ))}
+                  </>
                 ) : (
                   selectedGroupId === '' || selectedGroupId === null ? (
-                    <CardWapper>
-                      {group.id}
-                    </CardWapper>
+                    <>
+                      {group.drawTables.map((x, index) => ( 
+                     <BoardCard id={index.toString()} board={x}></BoardCard>
+                    ))}
+                    </>
                   ) : (
                     <></>
                   )

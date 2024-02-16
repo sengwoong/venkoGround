@@ -244,14 +244,16 @@ export const viewAllGroups = async (term: string | undefined,page: number) => {
     const whereCondition = term && term.trim() !== "" ? {
       OR: [
         { grouptitle: { contains: term } },
-        { groupUser: { some: { username: { contains: term } } } }
       ]
     } : {};
 
     const totalCount = await db.group.count({ where: whereCondition });
+
     const totalPages = Math.ceil(totalCount / 2);
 
-
+    console.log("totalPages")
+    console.log(totalPages)
+    console.log(totalPages)
 
     const allGroups = await db.group.findMany({
       include: {
