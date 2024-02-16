@@ -50,7 +50,7 @@ export function PageNation({ totalAllPages }: PageNationProps) {
         <span
           key={i}
           onClick={() => handlePageClick(i)}
-          className={page === i ? 'text-white' : 'text-black'}
+          className={page === i ? 'text-purple-700' : 'text-white'}
         >
           {i}
         </span>
@@ -80,13 +80,13 @@ export function PageNation({ totalAllPages }: PageNationProps) {
   };
 
   return (
-    <div className="pagination-container flex justify-center items-center p-3 bg-blue-800  font-mono" >
+    <div className="pagination-container flex justify-center items-center p-3  font-mono" >
       <div className="paginationcon flex  w-32 ">
         {1<page-2?(      
         <span
           key={1}
           onClick={() => handlePageClick(1)}
-          className={page === 1 ? 'text-white' : 'text-black'}
+          className={page === 1 ? 'text-purple-700' : 'text-white'}
         >
         1
         </span>
@@ -101,7 +101,7 @@ export function PageNation({ totalAllPages }: PageNationProps) {
                 <span
           key={totalAllPages}
           onClick={() => handlePageClick(totalAllPages)}
-          className={page === totalAllPages ? 'text-white' : 'text-black'}
+          className={page === totalAllPages ? 'text-purple-700' : 'text-white'}
         >
           {totalAllPages}
         </span>

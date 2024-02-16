@@ -48,11 +48,12 @@ const {page,term}=searchParams
       <div className="flex-1 h-[calc(100%-80px)] p-6  w-full ">
       <Suspense fallback={<EmptyGroup self={self} />}>
         <GroupList userGroupsBoards={userGroupsBoards} userLeaderBoards={userLeaderBoards}totalAllPages={searchParams.term? totalAllPages:totalMyPages} ></GroupList>
-        <Suspense fallback={<EmptyGroup self={self} />}>
-          <BoardList self={self} userGroupsBoards={userGroupsBoards} userLeaderBoards={userLeaderBoards} />
         <Suspense fallback={<></>}>
           <PageNation totalAllPages={searchParams.term? totalAllPages:totalMyPages} />
         </Suspense>
+        <Suspense fallback={<EmptyGroup self={self} />}>
+          <BoardList self={self} userGroupsBoards={userGroupsBoards} userLeaderBoards={userLeaderBoards} />
+       
         </Suspense>
         </Suspense>
       </div>
