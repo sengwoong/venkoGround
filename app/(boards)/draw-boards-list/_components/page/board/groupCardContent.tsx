@@ -11,13 +11,14 @@ import { getRole } from '@/lib/utils';
 import Margin from '@/components/ui/margin';
 import { Button } from '@/components/ui/button';
 import { usePageNation } from '@/app/store/use-pagenation';
+import { UserLeaderGroup } from '@/type/boardType';
 
-interface GroupCardProps {
+interface GroupBoardProps {
   self: User;
-  group: ViewAllGroupResult;
+  group: UserLeaderGroup;
 }
 
-function GroupCardContent({ self, group }: GroupCardProps) {
+function BoardCardContent({ self, group }: GroupBoardProps) {
   const [content, setContent] = useState<string>('유저 검색');
   const [userId, setUserId] = useState<string>('');
   const [isPending, startTransition] = useTransition();
@@ -173,4 +174,4 @@ function GroupCardContent({ self, group }: GroupCardProps) {
   );
 }
 
-export default GroupCardContent;
+export default BoardCardContent;

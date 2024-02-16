@@ -5,7 +5,7 @@ interface GroupsWrapperProps {
   }
 
 
-function GroupsWapper({children}:GroupsWrapperProps) {
+function BoardWapper({children}:GroupsWrapperProps) {
   return (
     <div>
         <div className=" w-full h-320px  rounded-md ">
@@ -15,4 +15,4 @@ function GroupsWapper({children}:GroupsWrapperProps) {
   )
 }
 
-export default GroupsWapper
+export default BoardWapper

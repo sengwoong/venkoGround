@@ -20,7 +20,7 @@ const font = Poppins({
 
 export const OrgSidebar = () => {
   const searchParams = useSearchParams();
-  const MyGroup = searchParams.get("MyGroup");
+  const MyBoard = searchParams.get("MyBoard");
   const { collapsed } = useSidebar((state) => state);
   const { setPage } = usePageNation();
 
@@ -32,7 +32,7 @@ export const OrgSidebar = () => {
     <div className={`${collapsed ? 'w-full' : 'lg:flex flex-col space-y-6 w-[206px] pl-5 pt-5 p-3'}`}>
       <div className="flex flex-col space-y-1 w-full ">
         <Button
-          variant={MyGroup ? "ghost" : "secondary"}
+          variant={MyBoard ? "ghost" : "secondary"}
           asChild
           size="lg"
           className="font-normal  px-2 w-full"
@@ -43,12 +43,12 @@ export const OrgSidebar = () => {
             query: { page: 1 }
           }}>
             <LayoutDashboard className="h-6 w-6" />
-            {!collapsed ? "Groups" : ""}
+            {!collapsed ? "Boards" : ""}
           </Link>
         </Button>
         {collapsed ? (<div className="mt-12"></div>) : (<></>)}
         <Button
-          variant={MyGroup ? "secondary" : "ghost"}
+          variant={MyBoard ? "secondary" : "ghost"}
           asChild
           size="lg"
           className="font-normal  px-2 w-full"
@@ -59,7 +59,7 @@ export const OrgSidebar = () => {
             query: { MyBoard: true, page: 1 }
           }}>
             <Star className="h-6 w-6" />
-            {!collapsed ? "My Group" : ""}
+            {!collapsed ? "My Board" : ""}
           </Link>
         </Button>
       </div>

@@ -2,49 +2,102 @@
 import { db } from "@/lib/db";
 import { User } from "@prisma/client";
 
-// 1. 사용자가 속한 모든 그룹의 보드 리스트 가져오기
-export async function getBoardsOfUserGroups(userId:string) {
+// 사용자가 속한 모든 그룹의 보드 리스트 가져오기
+export async function getBoardsOfUserGroups(userId:string, page:number) {
+  const pageSize = 10;
   try {
     // 사용자가 속한 그룹을 찾고, 각 그룹의 보드를 가져옵니다.
-    const userGroups = await db.group.findMany({
+    const Group = await db.group.count({
       where: {
-        groupUser:{
-          some:{
+        groupUser: {
+          some: {
             id: userId
           }
-        } ,
-       
+        }
       },
-      include: {
-        drawTables: true,
-      },
+     
+    
     });
 
-    return userGroups;
+  
+    const userGroupsBoards = await db.group.findMany({
+      where: {
+        groupUser: {
+          some: {
+            id: userId
+          }
+        }
+      },
+      include: {
+        drawTables: true
+      },
+      skip: (page - 1) * pageSize, // 페이지 번호에 따라 건너뛸 항목 수 계산
+      take: pageSize // 페이지 당 항목 수
+    });
+
+
+    
+
+
+    // 전체 페이지 수 계산
+    const totalBoardPages = Math.ceil(Group / pageSize);
+
+    return { userGroupsBoards, totalBoardPages };
   } catch (error) {
     console.error("Error fetching user groups and boards:", error);
     throw error;
   }
 }
 
-// 2. 사용자가 리더인
-export async function getBoardsCreatedByUser(userId:string) {
+// 사용자가 리더인 보드 리스트 가져오기
+export async function getBoardsLeaderByUser(userId:string, page:number) {
+  const pageSize = 10;
   try {
-    // 사용자가 만든 모든 보드를 가져옵니다.
-    const userCreatedBoards = await db.drawTable.findMany({
+
+    const Group = await db.group.count({
       where: {
-        group: {
-            leader: userId,
-        },
+        groupUser: {
+          some: {
+            id: userId
+          }
+        }
       },
+     
+    
     });
 
-    return userCreatedBoards;
+
+    // 사용자가 리더인 그룹 리스트 가져오기
+    const userLeaderBoards = await db.group.findMany({
+      where: {
+        leader: userId
+      },
+      include: {
+        drawTables: true
+      },
+      skip: (page - 1) * pageSize, // 페이지 번호에 따라 건너뛸 항목 수 계산
+      take: pageSize // 페이지 당 항목 수
+    });
+
+   
+
+
+    // 전체 페이지 수 계산
+    const totalBoardPages = Math.ceil(Group/ pageSize);
+
+    return { userLeaderBoards, totalBoardPages };
   } catch (error) {
     console.error("Error fetching boards created by user:", error);
     throw error;
   }
 }
+
+
+
+
+
+
+
 
 // 3. 모든 보드 가져오기, 단 서치를 할 시 해당 보드만 보이기
 export async function getAllBoardsWithSearch(searchTerm:string) {
@@ -130,7 +183,7 @@ export const deleteBoard = async (boardId: string, self: User): Promise<string> 
  * @param {User} self - 현재 로그인한 사용자
  * @returns {Promise<string>} - 보드 추가 결과 메시지
  */
-export const addBoardToGroup = async (groupId: string, title: string, img: Buffer, self: User): Promise<string> => {
+export const addBoardToGroup = async (groupId: string, title: string, img: string, self: User): Promise<string> => {
   let responseMessage = "";
   let transactionError = null;
 

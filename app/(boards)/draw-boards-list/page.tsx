@@ -1,13 +1,11 @@
 
 import React, { Suspense } from 'react';
 import { getSelf } from '@/lib/auth-service';
-import { viewAllGroups, viewMyGroups } from '@/lib/group-service';
-
-import { redirect } from 'next/navigation';
 import EmptyGroup from './_components/card/_component/emptyGroup';
-
 import { PageNation } from './_components/card/pageNation';
-import GroupList from './_components/page/group/groupList';
+import BoardList from './_components/page/board/boardList';
+import {  getBoardsLeaderByUser, getBoardsOfUserGroups } from '@/lib/boards-service';
+import GroupList from './GroupList';
 
 
 
@@ -32,20 +30,29 @@ const {page,term}=searchParams
   const self = await getSelf();
 
   // 데이터 불러오는 로직을 한번더 나눠야할듯 대신에 PageNationStore 사용하기 서스펜스 두개랑 같이 들고가야할듯
-  const {allGroups,totalPages:totalAllPages} = await viewAllGroups(term,page?page:1);
-  const {myGroups,totalPages:totalMyPages} = await viewMyGroups(self,term,page?page:1);
-
+  const {userGroupsBoards,totalBoardPages:totalAllPages} = await getBoardsOfUserGroups(self.id,page!);
+  const {userLeaderBoards,totalBoardPages:totalMyPages} = await getBoardsLeaderByUser(self.id,page!);
+  console.log("totalAllPages")
+  console.log(totalAllPages)
+  console.log(totalAllPages)
+  console.log("totalMyPages")
+  console.log(totalMyPages)
+  console.log(totalMyPages)
   return (
     <div className='ml-20'>
-      <div className="flex-1 h-[calc(100%-80px)] p-6">
+      <div className="flex-1 h-[calc(100%-80px)] p-6 ">
+      <Suspense fallback={<EmptyGroup self={self} />}>
+        <GroupList userGroupsBoards={userGroupsBoards} userLeaderBoards={userLeaderBoards}totalAllPages={searchParams.term? totalAllPages:totalMyPages} ></GroupList>
         <Suspense fallback={<EmptyGroup self={self} />}>
-          <GroupList self={self} allGroups={allGroups} myGroups={myGroups} />
+          <BoardList self={self} userGroupsBoards={userGroupsBoards} userLeaderBoards={userLeaderBoards} />
         <Suspense fallback={<></>}>
           <PageNation totalAllPages={searchParams.term? totalAllPages:totalMyPages} />
         </Suspense>
         </Suspense>
+        </Suspense>
       </div>
     </div>
+
   );
 }
 

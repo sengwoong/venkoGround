@@ -12,6 +12,10 @@ export async function POST(req: Request) {
     throw new Error('Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
   }
 
+  console.log("webnook clerk")
+
+
+
   // Get the headers
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
@@ -34,6 +38,9 @@ export async function POST(req: Request) {
 
   let evt: WebhookEvent
 
+  console.log("webnook clerk body")
+
+
   // Verify the payload with the headers
   try {
     evt = wh.verify(body, {
@@ -52,6 +59,7 @@ export async function POST(req: Request) {
   console.log("eventType")
   console.log(eventType)
   if (eventType === "user.created") {
+    console.log(eventType)
     console.log(eventType)
     await db.user.create({
       data: {

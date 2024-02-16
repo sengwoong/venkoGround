@@ -16,18 +16,17 @@ const DashboardLayout = ({
   children,
 }: DashboardLayoutProps) => {
   return (
-    
     <main className="h-full">
-        <Navbar />
-        <div className="flex h-max">
-        <Container>
-          <Sidebar/>
-        </Container>
-        <div className="h-full w-full">
-            {children}
-        </div>
-        </div>
-    </main>
+    <Navbar />
+    <div className="flex h-max">
+    <Container>
+      <Sidebar/>
+    </Container>
+    <div className="h-full w-full">
+        {children}
+    </div>
+    </div>
+</main>
   );
 };
 

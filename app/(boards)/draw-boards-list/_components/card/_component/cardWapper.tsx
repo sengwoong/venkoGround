@@ -10,7 +10,7 @@ interface CardWrapperProps {
 function CardWapper({children}:CardWrapperProps) {
   return (
 
-   <div className=" bg-purple-700   p-4 h-[250px] rounded-2xl shadow-lg flex flex-col justify-center items-center">
+   <div className=" bg-purple-700    w-full p-4 h-[250px] rounded-2xl shadow-lg flex flex-col justify-center items-center">
     {children}
     </div>
 
