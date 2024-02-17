@@ -51,7 +51,7 @@ function BoardList({ self, userGroupsBoards, userLeaderBoards }: BoardListProps)
                     {group.drawTables.map((x, index) => ( 
                   
                 
-                     <BoardCard id={index.toString()} board={x}></BoardCard>
+                     <BoardCard id={index.toString()} board={x} self={self}></BoardCard>
             
                     ))}
                   </>
@@ -60,7 +60,7 @@ function BoardList({ self, userGroupsBoards, userLeaderBoards }: BoardListProps)
                     selectedGroupId === '' || selectedGroupId === null ? (
                       <>
                          {group.drawTables.map((x, index) => ( 
-                     <BoardCard id={index.toString()} board={x}></BoardCard>
+                     <BoardCard id={index.toString()} board={x} self={self}></BoardCard>
                     ))}
                       </>
                     ) : (
@@ -80,14 +80,14 @@ function BoardList({ self, userGroupsBoards, userLeaderBoards }: BoardListProps)
                 {selectedGroupId === group.id && selectedGroupId !== '' ? (
                   <>
                      {group.drawTables.map((x, index) => ( 
-                     <BoardCard id={index.toString()} board={x}></BoardCard>
+                     <BoardCard id={index.toString()} board={x} self={self}></BoardCard>
                     ))}
                   </>
                 ) : (
                   selectedGroupId === '' || selectedGroupId === null ? (
                     <>
                       {group.drawTables.map((x, index) => ( 
-                     <BoardCard id={index.toString()} board={x}></BoardCard>
+                     <BoardCard id={index.toString()} board={x} self={self}></BoardCard>
                     ))}
                     </>
                   ) : (

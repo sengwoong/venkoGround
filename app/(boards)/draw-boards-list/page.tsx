@@ -53,7 +53,6 @@ const {page,term}=searchParams
         </Suspense>
         <Suspense fallback={<EmptyGroup self={self} />}>
           <BoardList self={self} userGroupsBoards={userGroupsBoards} userLeaderBoards={userLeaderBoards} />
-       
         </Suspense>
         </Suspense>
       </div>

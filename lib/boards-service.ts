@@ -261,7 +261,7 @@ export const addBoardToGroup = async (groupId: string, title: string, img: strin
  * @param {User} self - 현재 로그인한 사용자
  * @returns {Promise<string>} - 보드 수정 결과 메시지
  */
-export const updateBoard = async (boardId: string, newTitle: string|null, newImg: Buffer|null, self: User): Promise<string> => {
+export const updateBoard = async (boardId: string, newTitle: string|null, newImg: string|null, self: User): Promise<string> => {
   let responseMessage = "";
   let transactionError = null;
 

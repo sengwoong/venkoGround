@@ -17,6 +17,9 @@ import { Button } from "@/components/ui/button";
 
 import { ConfirmModal } from "@/modals/confirm-modal";
 import { useRenameModal } from "@/app/store/use-rename-modal";
+import { deleteBoard } from "@/lib/boards-service";
+import { User } from "@/type/userType";
+import { handleAddBoardDelect } from "@/actions/board";
 
 interface ActionsProps {
   children: React.ReactNode;
@@ -24,6 +27,8 @@ interface ActionsProps {
   sideOffset?: DropdownMenuContentProps["sideOffset"];
   id: string;
   title: string;
+  boardId:string;
+  self:User;
 };
 
 export const DropdownBoardOption = ({
@@ -32,16 +37,28 @@ export const DropdownBoardOption = ({
   sideOffset,
   id,
   title,
+  boardId,
+  self,
 }: ActionsProps) => {
-  const { onOpen } = useRenameModal();
+  const { onOpen ,setSelf} = useRenameModal();
 
   const onCopyLink = () => {
     navigator.clipboard.writeText(
-      `${window.location.origin}/board/${id}`,
+      `${window.location.origin}/board/${boardId}`,
     )
       .then(() => toast.success("Link copied"))
       .catch(() => toast.error("Failed to copy link"))
   };
+
+  const onDelete =()=>{
+    handleAddBoardDelect(boardId,self)
+    // 지우기 실행
+  }
+
+  const onModal=(boardId:string, title:string)=>{
+    setSelf(self)
+    onOpen(boardId, title)
+  }
 
   return (
     <DropdownMenu>
@@ -62,7 +79,7 @@ export const DropdownBoardOption = ({
           Copy board link
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => onOpen(id, title)}
+          onClick={() => onModal(boardId, title)}
           className="p-3 cursor-pointer"
         >
           <Pencil className="h-4 w-4 mr-2" />
@@ -71,12 +88,12 @@ export const DropdownBoardOption = ({
         <ConfirmModal
           header="Delete board?"
           description="This will delete the board and all of its contents."
-          disabled={true}
-          onConfirm={()=>{}}
+          onConfirm={onDelete}
         >
           <Button
             variant="ghost"
             className="p-3 cursor-pointer text-sm w-full justify-start font-normal"
+            
           >
             <Trash2 className="h-4 w-4 mr-2" />
             Delete

@@ -17,13 +17,9 @@ interface EmptyBoardProps {
 const CreateNewBoard: React.FC<EmptyBoardProps> = ({ self }) => {
   const [boardTitle, setBoardTitle] = useState<string>('');
   const [previewImages, setPreviewImages] = useState<string>('');
-  const { url } = usePageNation();
   const { selectedGroupId } = useGroupStore();
 
-  console.log("previewImages", previewImages);
-  console.log("previewImages", previewImages);
-  console.log("previewImages", previewImages==''?false:true);
-  console.log("previewImages", previewImages==''?false:true);
+
   const handleCreateGroup = async () => {
     try {
       if(selectedGroupId == null)

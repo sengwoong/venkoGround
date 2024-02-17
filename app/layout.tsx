@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 
 import { ThemeProvider } from '@/components/theme-provider'
+import { ModalProvider } from '@/components/modal-provider'
 
 
 
@@ -27,6 +28,7 @@ export default function RootLayout({
    
     <ClerkProvider appearance={{ baseTheme: dark }}>
       <html lang="en">
+      <ModalProvider></ModalProvider>
         <body className={inter.className}>
   
           <ThemeProvider
