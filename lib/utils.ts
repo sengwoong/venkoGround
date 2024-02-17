@@ -29,3 +29,5 @@ export const stringToColor = (str: string) => {
 export function getRole(userid: string, self: User): string {
   return userid === self.id ? "Leader" : "Crew";
 }
+
+

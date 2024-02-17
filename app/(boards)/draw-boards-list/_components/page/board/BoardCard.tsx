@@ -53,7 +53,7 @@ const {title,img,groupId} = board;
               />
             </button>
           </DropdownBoardOption>
-          <Link href={`/board/${id}`} className="w-full h-full">
+          <Link href={`/drawing/${board.id}`} className="w-full h-full">
           <div className="absolute inset-0 flex justify-center items-center">
             <div className="p-4">
               <div className="text-center">클릭시 {title} 을 실행합니다!</div>

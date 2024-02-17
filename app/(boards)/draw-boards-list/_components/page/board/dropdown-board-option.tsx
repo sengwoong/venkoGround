@@ -15,7 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 
-import { ConfirmModal } from "@/modals/confirm-modal";
+import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { useRenameModal } from "@/app/store/use-rename-modal";
 import { deleteBoard } from "@/lib/boards-service";
 import { User } from "@/type/userType";
