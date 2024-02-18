@@ -18,8 +18,7 @@ function GetUrlHook({ children }: ReFlashUrlHookProps) {
     params.set('page', page.toString());
     setUrl(params.toString());
     reFetchSettingGroup(params.toString());
-  }, [params, setUrl, page, reload, url]); // 여기에 params와 setUrl을 추가
-
+  }, [  page, reload, url]); 
   return <>{children}</>;
 }
 

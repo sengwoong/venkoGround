@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { reFetchSettingGroup } from '@/actions/rerodePath';
@@ -19,8 +18,7 @@ function GetUrlHook({ children }: ReFlashUrlHookProps) {
     params.set('page', page.toString());
     setUrl(params.toString());
     reFetchSettingGroup(params.toString());
-  }, [params, setUrl, page, reload, url]);
-
+  }, [  page, reload, url]); 
 
   return <>{children}</>;
 }
