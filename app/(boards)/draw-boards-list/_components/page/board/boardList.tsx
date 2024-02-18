@@ -48,20 +48,17 @@ function BoardList({ self, userGroupsBoards, userLeaderBoards }: BoardListProps)
                   {/* // 그룹이 선택되어있고 그룹아이디가 없으면 생성 */}
                   {selectedGroupId === group.id && selectedGroupId !== '' ? (
                     <>
-                    {group.drawTables.map((x, index) => ( 
-                  
-                
-                     <BoardCard id={index.toString()} board={x} self={self}></BoardCard>
-            
-                    ))}
-                  </>
+                      {group.drawTables.map((x, index) => ( 
+                        <BoardCard key={x.id} id={index.toString()} board={x} self={self}></BoardCard>
+                      ))}
+                    </>
                   ) : (
                     // 검색이없고 그룹 선택이없을경우 모든값을 불러옴
                     selectedGroupId === '' || selectedGroupId === null ? (
                       <>
-                         {group.drawTables.map((x, index) => ( 
-                     <BoardCard id={index.toString()} board={x} self={self}></BoardCard>
-                    ))}
+                        {group.drawTables.map((x, index) => ( 
+                          <BoardCard key={x.id} id={index.toString()} board={x} self={self}></BoardCard>
+                        ))}
                       </>
                     ) : (
                       <></>
@@ -73,31 +70,31 @@ function BoardList({ self, userGroupsBoards, userLeaderBoards }: BoardListProps)
           </>
         ) : (
           <>
-          <h2 className="text-lg font-bold mb-2">전체 보드</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-            {userLeaderBoards.map(group => (
-              <React.Fragment key={group.id}>
-                {selectedGroupId === group.id && selectedGroupId !== '' ? (
-                  <>
-                     {group.drawTables.map((x, index) => ( 
-                     <BoardCard id={index.toString()} board={x} self={self}></BoardCard>
-                    ))}
-                  </>
-                ) : (
-                  selectedGroupId === '' || selectedGroupId === null ? (
+            <h2 className="text-lg font-bold mb-2">전체 보드</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+              {userLeaderBoards.map(group => (
+                <React.Fragment key={group.id}>
+                  {selectedGroupId === group.id && selectedGroupId !== '' ? (
                     <>
                       {group.drawTables.map((x, index) => ( 
-                     <BoardCard id={index.toString()} board={x} self={self}></BoardCard>
-                    ))}
+                        <BoardCard key={x.id} id={index.toString()} board={x} self={self}></BoardCard>
+                      ))}
                     </>
                   ) : (
-                    <></>
-                  )
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </>
+                    selectedGroupId === '' || selectedGroupId === null ? (
+                      <>
+                        {group.drawTables.map((x, index) => ( 
+                          <BoardCard key={x.id} id={index.toString()} board={x} self={self}></BoardCard>
+                        ))}
+                      </>
+                    ) : (
+                      <></>
+                    )
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </BoardWapper>

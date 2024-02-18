@@ -1,6 +1,6 @@
 "use server";
 
-import { addBoardToGroup, deleteBoard, updateBoard } from "@/lib/boards-service";
+import { addBoardToGroup, deleteBoard, isBoardInUserGroup, updateBoard } from "@/lib/boards-service";
 import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -30,6 +30,19 @@ export const handleRenameModal= async (boardId: string, newTitle: string|null, n
         return
         }
     await updateBoard(boardId,newTitle,newImg,self);
+    revalidatePath("/");
+    } catch (error) {
+    console.log(error)
+    }
+}
+
+//isBoardInUserGroup 을활용해서 만들기
+
+
+export const handleBoardInUserGroup= async(boardId: string, userId: string)=>{
+    "use server"
+    try {
+    await isBoardInUserGroup(boardId,userId);
     revalidatePath("/");
     } catch (error) {
     console.log(error)

@@ -19,11 +19,10 @@ function GetUrlHook({ children }: ReFlashUrlHookProps) {
     params.set('page', page.toString());
     setUrl(params.toString());
     reFetchSettingGroup(params.toString());
-  }, [page,reload,url]);
+  }, [params, setUrl, page, reload, url]);
 
 
   return <>{children}</>;
 }
 
 export default GetUrlHook;
-

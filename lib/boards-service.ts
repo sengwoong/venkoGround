@@ -320,3 +320,44 @@ export const updateBoard = async (boardId: string, newTitle: string|null, newImg
   }
 };
 
+
+
+
+
+// 보드 아이디로 보드가 특정 유저의 그룹에 속해 있는지 확인하는 함수
+export async function isBoardInUserGroup(boardId: string, userId: string): Promise<boolean> {
+  try {
+    // 보드를 찾습니다.
+    const board = await db.drawTable.findUnique({
+      where: { id: boardId },
+      include: {
+        group: true,
+      },
+    });
+
+    if (!board) {
+      throw new Error("보드를 찾을 수 없습니다");
+    }
+
+    // 보드가 속한 그룹을 가져옵니다.
+    const group = board.group;
+
+    // 그룹에 유저가 속해 있는지 확인합니다.
+    const userInGroup = await db.group.findFirst({
+      where: {
+        id: group.id,
+        groupUser: {
+          some: {
+            id: userId
+          }
+        }
+      }
+    });
+    
+
+    return !!userInGroup; // 유저가 그룹에 속해 있다면 true를 반환, 속해 있지 않다면 false를 반환합니다.
+  } catch (error) {
+    console.error("보드 소속 그룹 확인 중 오류 발생:", error);
+    throw error;
+  }
+}

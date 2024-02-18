@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { reFetchSettingGroup } from '@/actions/rerodePath';
@@ -19,11 +18,9 @@ function GetUrlHook({ children }: ReFlashUrlHookProps) {
     params.set('page', page.toString());
     setUrl(params.toString());
     reFetchSettingGroup(params.toString());
-  }, [page,reload,url]);
-
+  }, [params, setUrl, page, reload, url]); // 여기에 params와 setUrl을 추가
 
   return <>{children}</>;
 }
 
 export default GetUrlHook;
-

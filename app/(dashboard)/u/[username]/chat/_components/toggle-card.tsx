@@ -39,21 +39,13 @@ export const ToggleCard = ({
           {label}
         </p>
         <div className="space-y-2">
-            <SwitchBtn disabled={isPending}  onCheckedChange={onChange} checked={value} >
-      
-            </SwitchBtn>
-           
+          <SwitchBtn disabled={isPending}  onCheckedChange={onChange} checked={value}>
+          </SwitchBtn>
         </div>
       </div>
     </div>
   );
 };
-
-
-
-
-
-
 
 export const ToggleCardSkeleton = () => {
   return (
